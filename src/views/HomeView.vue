@@ -5,15 +5,11 @@
     <p>There is total items in trade: {{ itemStore.items.length }}</p>
     <p>Among them sets: {{ itemStore.sets.length }}</p>
     <p>Warframes: {{ warframes.length }}</p>
-    <table class="table  table-striped-columns">
-      <thead></thead>
-
-
-      <WarframeTable :warframes="warframes"></WarframeTable>
-
-    </table>
-
-
+    <p>Weapons: </p>
+    <p>Others: </p>
+    <p>Companions: </p>
+    <p>Archwing: </p>
+    <WarframeTable :warframes="warframes"></WarframeTable>
   </main>
 </template>
 

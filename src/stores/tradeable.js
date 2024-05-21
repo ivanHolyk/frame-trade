@@ -6,12 +6,12 @@ import { useWarframeStore } from './warframe'
 const baseUrl = '/api'
 
 export const useTradeableItemStore = defineStore('items', () => {
-  const waframeStore = useWarframeStore()
+  const itemStore = useWarframeStore()
   const items = ref([])
   const sets = computed(() => {
     return items.value.filter((item) => item.item_name.includes('Prime Set'))
   })
-  const warframes = waframeStore.warframes
+  const warframes = itemStore.warframes
   const urlNames = computed(() => getUrlName(items))
   const setsUrlNames = computed(() => getUrlName(sets))
 
@@ -19,14 +19,14 @@ export const useTradeableItemStore = defineStore('items', () => {
     try {
       let response = await axios.get(baseUrl + '/items')
       items.value = response.data.payload.items
-      waframeStore.sets = sets.value
-      waframeStore.getSetsInfo()
+      itemStore.sets = sets.value
+      itemStore.getSetsInfo()
     } catch (error) {
       console.error(error)
     }
   }
 
-  return { items, sets, getItems, urlNames, setsUrlNames, warframes, waframeStore }
+  return { items, sets, getItems, urlNames, setsUrlNames, warframes, itemStore }
 })
 
 function getUrlName(arr) {
