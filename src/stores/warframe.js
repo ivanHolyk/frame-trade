@@ -14,7 +14,7 @@ export const useWarframeStore = defineStore('warframes', () => {
     for (let index = 0; index < items.length; index++) {
       var item = items[index]
 
-      const response = await axios.get(baseUrl + `/items/${item.url_name}` + '/orders')
+      const response = await axios.get(`${baseUrl}/items/${item.url_name}/orders`)
       console.log(response)
 
       item.orders = response.data.payload.orders
@@ -28,7 +28,7 @@ export const useWarframeStore = defineStore('warframes', () => {
     for (let index = 0; index < sets.value.length; index++) {
       const set = sets.value[index]
       let info = await getInfoAboutItem(set.url_name)
-      await sleep(1000)
+      await sleep(500)
       sets.value[index].itemsInSet = info.items_in_set
 
       if (sets.value[index].itemsInSet[0]?.tags.includes('warframe')) {
@@ -41,7 +41,7 @@ export const useWarframeStore = defineStore('warframes', () => {
 })
 async function getInfoAboutItem(urlName) {
   try {
-    let response = await axios.get(baseUrl + '/items' + '/' + urlName)
+    let response = await axios.get(`${baseUrl}/items/${urlName}`)
     return response.data.payload.item
   } catch (error) {
     console.error(error)
