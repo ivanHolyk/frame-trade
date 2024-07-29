@@ -8,9 +8,7 @@ const baseUrl = '/api'
 export const useTradeableItemStore = defineStore('items', () => {
   const itemStore = useWarframeStore()
   const items = ref([])
-  const sets = computed(() => {
-    return items.value.filter((item) => item.item_name.includes('Prime Set'))
-  })
+  const sets = computed(() => items.value.filter((item) => item.item_name.includes('Prime Set')))
   const warframes = itemStore.warframes
   const urlNames = computed(() => getUrlName(items))
   const setsUrlNames = computed(() => getUrlName(sets))
