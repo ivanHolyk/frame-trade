@@ -14,10 +14,16 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://api.warframe.market/v1',
+        target: 'https://api.warframe.market',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
+      },
+      '/static': {
+        target: 'https://warframe.market/static',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/static/, '')
       }
     }
+    // https: {}
   }
 })

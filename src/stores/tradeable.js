@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 import { useWarframeStore } from './warframe'
 
-const baseUrl = '/api'
+const baseUrl = '/api/v1'
 
 export const useTradeableItemStore = defineStore('items', () => {
   const itemStore = useWarframeStore()

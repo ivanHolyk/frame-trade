@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
 
-const baseUrl = '/api'
+const baseUrl = '/api/v1'
 
 export const useWarframeStore = defineStore('warframes', () => {
   const warframes = ref([])

@@ -2,7 +2,10 @@
     <div v-if="order && order.user">
         <button class="list-group-item list-group-item-action" type="button" data-bs-toggle="collapse"
             :data-bs-target="'#' + id" aria-expanded="false" :aria-controls="id">
-            <UserInfo v-if="order.user" :user="order.user"><i class="bi bi-boxes"></i> {{ order.quantity }}
+            <UserInfo v-if="order.user" :user="order.user">
+                <span class="h3 me-3">
+                    <i class="bi bi-boxes"></i> {{ order.quantity }}
+                </span>
             </UserInfo>
         </button>
         <div class="collapse list-group-item" :id="id">

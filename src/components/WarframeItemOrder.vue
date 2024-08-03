@@ -2,7 +2,7 @@
     <h2 class="accordion-header">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
             :data-bs-target="'#' + item.url_name" aria-expanded="false" :aria-controls="item.url_name">
-            {{ item.url_name }},
+            {{ item.en.item_name }},
             {{ item.ducats }}
             <DucatIcon /> <span v-if="item.orders">,
                 wts:
@@ -72,6 +72,7 @@ const priciestBuyOrders = computed(() => {
     if (orders.value) {
         const arr = orders.value?.filter(o => o.order_type === 'buy' && o.user.status === 'ingame')
             .sort((a, b) => b.platinum - a.platinum)
+        //point of failure
         const platinum = arr[0].platinum;
         return arr.filter(o => o.platinum === platinum)
             .sort((a, b) => b.user.reputation - a.user.reputation)
