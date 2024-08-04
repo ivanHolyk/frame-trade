@@ -5,7 +5,8 @@
         </slot>
         <div class="public-info">
             <div v-if="user.ingame_name" class="h3 me-3">
-                <i class="bi bi-person"></i> {{ user.ingame_name }}
+                <span class="me-2"><i class="bi bi-person"></i> {{ user.ingame_name }}</span>
+                <span v-if="user.status" :style="setStatusClass(user.status)"> {{ user.status }} </span>
             </div>
             <div v-if="user.reputation" class="h5">
                 <i class="bi bi-star-fill"></i> Rep: {{ user.reputation }}
@@ -16,29 +17,35 @@
             <div v-if="user.id">
                 <i class="bi bi-person-badge"></i> ID: {{ user.id }}
             </div>
+            <div v-if="user.last_seen">Last seen: {{ useTimeAgo(user.last_seen) }}</div>
         </div>
         <div class="d-flex flex-wrap account-info">
+            <div class="user-mail">
+                <span v-if="user.has_mail !== undefined">
+                    <i class="bi bi-envelope"></i> Has Mail: {{ user.has_mail ? 'Yes' : 'No' }}
+                </span>
+                <span v-if="user.unread_messages !== undefined">
+                    Unread Messages: {{ user.unread_messages }}
+                </span>
+                <span v-if="user.written_reviews !== undefined">
+                    <i class="bi bi-pencil-square">
 
-            <span v-if="user.has_mail !== undefined">
-                <i class="bi bi-envelope">
+                    </i> Written Reviews: {{ user.written_reviews }}
+                </span>
+            </div>
 
-                </i> Has Mail: {{ user.has_mail ? 'Yes' : 'No' }}
-            </span>
-            <span v-if="user.banned !== undefined">
-                <i class="bi bi-slash-circle">
-
-                </i> Banned: {{ user.banned ? 'Yes' : 'No' }}
+            <span v-if="user.banned">
+                <i class="bi bi-slash-circle"></i> Banned: {{ user.banned ? 'Yes' : 'No' }}
+                <span v-if="user.ban_reason">
+                    Ban reason: {{ user.ban_reason }}
+                </span>
             </span>
             <span v-if="user.anonymous !== undefined">
                 <i class="bi bi-eye-slash">
 
                 </i> Anonymous: {{ user.anonymous ? 'Yes' : 'No' }}
             </span>
-            <span v-if="user.unread_messages !== undefined">
-                <i class="bi bi-envelope-open">
 
-                </i> Unread Messages: {{ user.unread_messages }}
-            </span>
             <span v-if="user.verification !== undefined">
                 <i class="bi bi-check-circle">
 
@@ -52,11 +59,7 @@
 
                 </i> Platform: {{ user.platform }}
             </span>
-            <span v-if="user.written_reviews !== undefined">
-                <i class="bi bi-pencil-square">
 
-                </i> Written Reviews: {{ user.written_reviews }}
-            </span>
             <span v-if="userStore.haveAnyLinkendAccountsByUser(user)">
                 <i class="bi bi-link-45deg">
 
@@ -99,10 +102,30 @@
 <script setup>
 import { RouterView } from 'vue-router';
 import { useUserStore } from '@/stores/user';
+import { useTimeAgo } from '@vueuse/core';
 const props = defineProps(['user'])
 const user = props.user
 
 const userStore = useUserStore()
+
+
+function setStatusClass(status) {
+    let cssClass = {}
+    switch (status) {
+        case 'ingame':
+            cssClass.color = 'purple'
+            break;
+        case 'online':
+            cssClass.color = 'green'
+            break;
+        case 'offline':
+            cssClass.color = 'red'
+            break;
+        default:
+            break;
+    }
+    return cssClass
+}
 </script>
 <style>
 .public-info {
