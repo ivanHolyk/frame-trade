@@ -35,7 +35,14 @@ export const useAuthStore = defineStore('auth', () => {
 
     return user
   }
-
+  const header = computed(() => {
+    return {
+      withCredentials: true,
+      headers: {
+        Authorization: jwt.value
+      }
+    }
+  })
   function logout() {
     jwt.value = undefined
   }
@@ -54,5 +61,5 @@ export const useAuthStore = defineStore('auth', () => {
 
   const token = computed(() => jwt.value)
 
-  return { login, isAuth, requiresAuth, token, logout }
+  return { login, isAuth, requiresAuth, token, logout, header }
 })

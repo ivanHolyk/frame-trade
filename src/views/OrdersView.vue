@@ -11,7 +11,8 @@
             <div class="col-lg">
                 <h3>Sell Orders</h3>
                 <div v-if="orders.sell_orders?.length > 0">
-                    <OrderItem v-for="order in orders.sell_orders" :key="order.id" :order="order">
+                    <OrderItem v-for="order in orders.sell_orders" :key="order.id" :order="order"
+                        :isUserOrdrer="$props.isUserOrders">
                     </OrderItem>
                 </div>
                 <div v-else>
@@ -22,7 +23,8 @@
             <div class="col-lg">
                 <h3>Buy Orders</h3>
                 <div v-if="orders?.buy_orders?.length > 0">
-                    <OrderItem v-for="order in orders.buy_orders" :key="order.id" :order="order">
+                    <OrderItem v-for="order in orders.buy_orders" :key="order.id" :order="order"
+                        :isUserOrdrer="$props.isUserOrders">
                     </OrderItem>
                 </div>
                 <div v-else>
@@ -79,42 +81,4 @@ if (props.id && props.urlName) {
 
 
 </script>
-<style>
-.order-card {
-    border: 1px solid #ccc;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    border-radius: 5px;
-}
-
-.order-header {
-    display: flex;
-    align-items: center;
-}
-
-.order-thumb {
-    width: 64px;
-    height: 64px;
-    margin-right: 1rem;
-}
-
-.order-details {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-}
-
-.order-details-body {
-    flex: 1;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.order-details-body>p {
-    margin-right: 1rem;
-}
-
-.order-tags .badge {
-    margin-right: 0.5rem;
-}
-</style>
+<style></style>
