@@ -8,7 +8,7 @@
                 :disabled="!isLoadComplete">
             <input type="password" class="form-control mb-3" placeholder="Password" v-model="loginInfo.password"
                 :disabled="!isLoadComplete">
-            <button class="btn btn-primary w-100 mt-3" @click="login" :disabled="!isLoadComplete">
+            <button type="submit" class="btn btn-primary w-100 mt-3" @click="login" :disabled="!isLoadComplete">
                 <span v-if="!isLoadComplete" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
                 Log in
             </button>

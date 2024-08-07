@@ -26,7 +26,7 @@
                     <p><i class="bi bi-currency-exchange"></i> Trading Tax: {{ item.trading_tax }}</p>
                     <p v-if="item.mod_max_rank >= 0"><i class="bi bi-arrow-bar-up"></i> Mod Max Rank: {{
                         item.mod_max_rank
-                        }}
+                    }}
                     </p>
                     <p v-if="item.mastery_level"><i class="bi bi-award"></i> Mastery level: {{ item.mastery_level }}</p>
                     <p v-if="item.set_root"><i class="bi bi-box"></i> Set root: {{ item.set_root }}</p>
@@ -95,12 +95,3 @@ function getIcon(url) {
     return `/static/assets/${url}`
 }
 </script>
-<style>
-@media (min-width: 768px) {
-
-    .vh-25-md {
-
-        /* height: 25vh; */
-    }
-}
-</style>

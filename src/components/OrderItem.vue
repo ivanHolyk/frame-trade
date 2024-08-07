@@ -1,36 +1,34 @@
 <template>
     <div class="order-card" v-if="order" :class="order.visible ? '' : 'opacity-75'">
 
-        <div class="row d-inline-flex">
+        <div class="row d-inline-flex justify-content-center">
 
-            <img v-if="order.item" :src="getThumbnail(order.item.sub_icon ? order.item.sub_icon : order.item.thumb)"
-                alt="Item Thumbnail" class=" img-thumbnail me-3 col-3">
-            <div class="order-details col">
+
+            <div class=" me-3 mb-3 col-xl-3 col-4 ">
+
+                <img v-if="order.item" :src="getThumbnail(order.item.sub_icon ? order.item.sub_icon : order.item.thumb)"
+                    alt="Item Thumbnail" class=" img-thumbnail">
+            </div>
+
+
+
+            <div class="order-details mb-3 col">
                 <div v-if="order.item" class="order-header">
-
                     <h4 class="align-self-center p-0 m-0">
                         <RouterLink :to="`/item/${order.item.id}/${order.item.url_name}/orders`" :id="order.item.id"
                             :urlName="order.item.url_name">
-
                             {{ order.item.en.item_name }}
-
                         </RouterLink>
                     </h4>
                     <div class="action-buttons">
                         <RouterLink :to="`/item/${order.item.id}/${order.item.url_name}`" :id="order.item.id"
                             :urlName="order.item.url_name" class="icon-link me-1 ">
-                            <h4 class="align-self-center p-0 m-0">
-
-                                <i class="bi bi-info-circle"></i>
-
-                            </h4>
+                            <h4 class="align-self-center p-0 m-0"><i class="bi bi-info-circle"></i></h4>
                         </RouterLink>
-
-
-                        <button class="btn btn-secondary me-1">Sold</button> <button class="btn btn-secondary me-1"><i
-                                class="bi bi-pencil-square"></i></button>
+                        <button class="btn btn-outline-secondary me-1">-1</button> <button
+                            class="btn btn-outline-secondary me-1"><i class="bi bi-pencil-square"></i></button>
                         <button @click="orderStore.setOrderVisibility(!order.visible, order.id)"
-                            class="btn btn-secondary me-1"><i class="bi"
+                            class="btn btn-outline-secondary me-1"><i class="bi"
                                 :class="order.visible ? 'bi-eye-slash' : 'bi-eye'"></i></button> <button
                             class="btn btn-outline-danger"><i class="bi bi-trash"></i></button>
                     </div>
@@ -40,7 +38,9 @@
                     <p>Order ID: {{ order.id }}</p>
                     <p><i class="bi" :class="order.visible ? 'bi-eye' : 'bi-eye-slash'"></i> </p>
                     <p>{{ order.quantity }} <i class="bi bi-boxes"></i></p>
-                    <p>Platinum: {{ order.platinum }}</p>
+                    <p>Platinum: {{ order.platinum }}
+                        <PlatIcon />
+                    </p>
                     <p v-if="order.item && order.item.ducats">Ducats: {{ order.item.ducats }}</p>
                     <p v-if="order.mod_rank >= 0">Rank: {{ order.mod_rank }}</p>
                     <p>Last Update: {{ useTimeAgo(order.last_update) }}</p>
@@ -60,7 +60,7 @@
 <script setup>
 import { toRef, toRefs, useTimeAgo } from '@vueuse/core';
 import { useOrdersStore } from '@/stores/orders';
-
+import PlatIcon from '@/assets/PlatIcon.vue';
 const props = defineProps(['order', 'isUserOrder'])
 
 

@@ -19,7 +19,7 @@
             </div>
             <div v-if="user.last_seen">Last seen: {{ useTimeAgo(user.last_seen) }}</div>
         </div>
-        <div class="d-flex flex-wrap account-info">
+        <div class="d-flex flex-wrap mb-div-2">
             <div class="user-mail">
                 <span v-if="user.has_mail !== undefined">
                     <i class="bi bi-envelope"></i> Has Mail: {{ user.has_mail ? 'Yes' : 'No' }}
@@ -32,69 +32,77 @@
 
                     </i> Written Reviews: {{ user.written_reviews }}
                 </span>
+                <br>
             </div>
 
-            <span v-if="user.banned">
-                <i class="bi bi-slash-circle"></i> Banned: {{ user.banned ? 'Yes' : 'No' }}
-                <span v-if="user.ban_reason">
-                    Ban reason: {{ user.ban_reason }}
+            <div class="account-info">
+
+
+                <div v-if="user.banned">
+                    <span>
+                        <i class="bi bi-slash-circle"></i> Banned: {{ user.banned ? 'Yes' : 'No' }}
+                        <span v-if="user.ban_reason">
+                            Ban reason: {{ user.ban_reason }}
+                        </span>
+                    </span>
+                </div>
+
+                <span v-if="user.anonymous !== undefined">
+                    <i class="bi bi-eye-slash">
+
+                    </i> Anonymous: {{ user.anonymous ? 'Yes' : 'No' }}
                 </span>
-            </span>
-            <span v-if="user.anonymous !== undefined">
-                <i class="bi bi-eye-slash">
 
-                </i> Anonymous: {{ user.anonymous ? 'Yes' : 'No' }}
-            </span>
+                <span v-if="user.verification !== undefined">
+                    <i class="bi bi-check-circle">
 
-            <span v-if="user.verification !== undefined">
-                <i class="bi bi-check-circle">
+                    </i> Verified: {{ user.verification ? 'Yes' : 'No' }}
+                </span>
+                <span v-if="user.check_code">
+                    <i class="bi bi-key"></i> Check Code: {{ user.check_code }}
+                </span>
+                <span v-if="user.platform">
+                    <i class="bi bi-display">
 
-                </i> Verified: {{ user.verification ? 'Yes' : 'No' }}
-            </span>
-            <span v-if="user.check_code">
-                <i class="bi bi-key"></i> Check Code: {{ user.check_code }}
-            </span>
-            <span v-if="user.platform">
-                <i class="bi bi-display">
+                    </i> Platform: {{ user.platform }}
+                </span>
 
-                </i> Platform: {{ user.platform }}
-            </span>
+                <span v-if="userStore.haveAnyLinkendAccountsByUser(user)">
+                    <i class="bi bi-link-45deg">
 
-            <span v-if="userStore.haveAnyLinkendAccountsByUser(user)">
-                <i class="bi bi-link-45deg">
+                    </i> Linked Accounts:
+                    <ul>
+                        <li v-if="user.linked_accounts.steam_profile">
+                            <i class="bi bi-steam"></i> Steam: {{ user.linked_accounts.steam_profile ? 'Linked' : `Not
+                            Linked`}}
+                        </li>
+                        <li v-if="user.linked_accounts.patreon_profile">
+                            <i class="bi bi-patreon">
 
-                </i> Linked Accounts:
-                <ul>
-                    <li v-if="user.linked_accounts.steam_profile !== undefined">
-                        <i class="bi bi-steam"></i> Steam: {{ user.linked_accounts.steam_profile ? 'Linked' : `Not
-                        Linked`}}
-                    </li>
-                    <li v-if="user.linked_accounts.patreon_profile !== undefined">
-                        <i class="bi bi-patreon">
+                            </i> Patreon: {{ user.linked_accounts.patreon_profile ? 'Linked' : 'Not Linked' }}
+                        </li>
+                        <li v-if="user.linked_accounts.xbox_profile">
+                            <i class="bi bi-xbox"></i> Xbox: {{ user.linked_accounts.xbox_profile ? 'Linked' : `Not
+                            Linked`}}
+                        </li>
+                        <li v-if="user.linked_accounts.discord_profile">
+                            <i class="bi bi-discord"></i> Discord: {{ user.linked_accounts.discord_profile ? 'Linked' :
+                                `Not
+                            Linked` }}
+                        </li>
+                        <li v-if="user.linked_accounts.github_profile">
+                            <i class="bi bi-github"></i> Github: {{ user.linked_accounts.github_profile ? 'Linked' :
+                                `Not
+                            Linked` }}
+                        </li>
+                    </ul>
 
-                        </i> Patreon: {{ user.linked_accounts.patreon_profile ? 'Linked' : 'Not Linked' }}
-                    </li>
-                    <li v-if="user.linked_accounts.xbox_profile !== undefined">
-                        <i class="bi bi-xbox"></i> Xbox: {{ user.linked_accounts.xbox_profile ? 'Linked' : `Not
-                        Linked`}}
-                    </li>
-                    <li v-if="user.linked_accounts.discord_profile !== undefined">
-                        <i class="bi bi-discord"></i> Discord: {{ user.linked_accounts.discord_profile ? 'Linked' :
-                            `Not
-                        Linked` }}
-                    </li>
-                    <li v-if="user.linked_accounts.github_profile !== undefined">
-                        <i class="bi bi-github"></i> Github: {{ user.linked_accounts.github_profile ? 'Linked' :
-                            `Not
-                        Linked` }}
-                    </li>
-                </ul>
+                </span>
 
-            </span>
-
-            <span v-if="user.role">
-                <i class="bi bi-person-rolodex"></i> Role: {{ user.role }}
-            </span>
+                <span v-if="user.role">
+                    <i class="bi bi-person-rolodex"></i> Role: {{ user.role }}
+                </span>
+            </div>
         </div>
     </div>
     <router-view />
@@ -150,5 +158,15 @@ function setStatusClass(status) {
 
 .account-info>span {
     margin-right: 1rem;
+}
+
+.user-mail>span {
+    margin-right: 0.25rem;
+
+
+}
+
+.mb-div-2>div {
+    margin-bottom: 0.5rem
 }
 </style>
