@@ -1,14 +1,22 @@
 <template>
     <div>
-        <h2 v-if="props.isUserOrders">{{ userStore.username }}'s orders
+        <div v-if="props.isUserOrders" class="d-inline-flex">
+            <h2 class="me-2">
+                {{ userStore.username }}'s orders
+            </h2>
+
+            <button @click="isCreateOrder = !isCreateOrder" class=" btn btn-outline-secondary me-1"><i
+                    class="bi bi-cart-plus"></i></button>
+
+            <CreateOrder v-if="isCreateOrder" :isCreateOrder></CreateOrder>
             <button @click="ordersStore.fetchUserOrders()" class="btn btn-outline-secondary"><i
                     class="bi bi-arrow-clockwise"></i></button>
-        </h2>
+        </div>
         <!-- {{ orders }}
         {{ props }}
         {{ ordersStore.orders }} -->
         <div v-if="orders" class="row">
-            <div class="col-lg">
+            <div class="col-md-6">
                 <h3>Sell Orders</h3>
                 <div v-if="orders.sell_orders?.length > 0">
                     <OrderItem v-for="order in orders.sell_orders" :key="order.id" :order="order"
@@ -20,7 +28,7 @@
                 </div>
             </div>
 
-            <div class="col-lg">
+            <div class="col-md-6">
                 <h3>Buy Orders</h3>
                 <div v-if="orders?.buy_orders?.length > 0">
                     <OrderItem v-for="order in orders.buy_orders" :key="order.id" :order="order"
@@ -36,10 +44,13 @@
 </template>
 <script setup>
 import { useOrdersStore } from '@/stores/orders';
-import { computed, onBeforeMount, ref } from 'vue';
+import { computed, onBeforeMount, onMounted, ref, watch } from 'vue';
 import OrderItem from '@/components/OrderItem.vue';
 import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
+import CreateOrder from '@/components/CreateOrder.vue';
+
+
 const ordersStore = useOrdersStore()
 const userStore = useUserStore()
 const props = defineProps({
@@ -58,6 +69,9 @@ const orders = ref(computed(() => {
         return ordersByItem.value
     }
 }))
+
+
+
 console.log(props)
 
 if (props.isUserOrders) {
@@ -78,7 +92,7 @@ if (props.id && props.urlName) {
     orders.value = ordersByItem.value
 }
 
-
+const isCreateOrder = ref(false)
 
 </script>
 <style></style>

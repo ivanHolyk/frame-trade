@@ -66,6 +66,31 @@ quantity:
   function findOrderById(orderId) {
     return Object.entries(userOrders.value).map((orders) => orders.find((o) => o.id == orderId))
   }
+
+  async function postOrder(order) {
+    let response = await axios.post(`${baseUrl}/profile/orders`, order, authStore.header)
+    order = await response.data.payload.order
+    switch (order.order_type) {
+      case 'buy':
+        userOrders.value.buy_orders.push(order)
+        break
+      case 'sell':
+        userOrders.value.sell_orders.push(order)
+        break
+    }
+    //api/v1/profile/orders
+    /**
+   * item_id:"5758af5142ba8659dde2f573"
+   * 
+   * 56dac56a5cc639de0a45c51b
+order_type:"sell"
+platinum:999
+quantity:1
+rank:1
+visible:true
+   */
+  }
+
   function updateOrder(newOrder) {
     const type = newOrder.order_type
     switch (type) {
@@ -95,7 +120,14 @@ quantity:
     }
   }
 
-  return { userOrders, ordersByItem, fetchUserOrders, fetchOrdersByItem, setOrderVisibility }
+  return {
+    userOrders,
+    ordersByItem,
+    fetchUserOrders,
+    fetchOrdersByItem,
+    setOrderVisibility,
+    postOrder
+  }
 })
 const condition = (order) => {
   return order.order_type === 'sell'
