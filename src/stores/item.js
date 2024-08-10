@@ -1,24 +1,20 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import axios from 'axios'
+import { fetchItems, fetchItem } from '@/api/itemApi'
 
-const baseUrl = '/api/v1'
 // const apiv2 = '/api/v2'
 //https://drops.warframestat.us/data/all.slim.json?1722791610857
 //data from syndicates
 export const useItemsStore = defineStore('items', () => {
   const items = ref([])
 
-  async function fetchItems() {
-    let response = await axios.get(`${baseUrl}/items`)
-    items.value = await response.data.payload.items
+  function getItems() {
+    fetchItems().then((i) => (items.value = i))
   }
-
-  async function fetchItem(urlName) {
+  async function getItem(urlName) {
     let item = findItem(urlName)
     if (!item) {
-      let response = await axios.get(`${baseUrl}/items/${urlName}`)
-      item = await response.data.payload.item
+      item = await fetchItem(urlName)
       items.value.push(item)
     }
     console.log(item)
@@ -29,15 +25,26 @@ export const useItemsStore = defineStore('items', () => {
     if (!by) {
       return []
     }
-    console.log(by)
-    console.log(
-      items.value.filter(
-        (i) => i.item_name.includes(by) || i.url_name.includes(by) || i.id.includes(by)
-      )
-    )
-    return items.value.filter(
-      (i) => i.item_name.includes(by) || i.url_name.includes(by) || i.id.includes(by)
-    )
+    return items.value.filter((i) => {
+      // console.log('===============================================')
+      // console.log(i)
+      return i.item_name.includes(by) || i.url_name.includes(by) || i.id.includes(by)
+    })
+  }
+  async function findById(id) {
+    let item = items.value.find((i) => i.id == id)
+    console.log(item)
+    if (item && !item.tags) {
+      item = await fetchItem(item.url_name)
+
+      console.log(item)
+      item = item.items_in_set.find((i) => i.id == id)
+      item.en ? (item = { ...item, ...item['en'] }) : item
+      const index = items.value.findIndex((i) => i.id == id)
+      console.log(item)
+      items.value[index] = item
+    }
+    return item
   }
   function findItem(urlName) {
     return items.value.find(
@@ -46,5 +53,6 @@ export const useItemsStore = defineStore('items', () => {
         (i.items_in_set && i.items_in_set.find((iis) => iis.url_name === urlName))
     )
   }
-  return { items, fetchItem, fetchItems, findBy }
+
+  return { items, getItem, getItems, findBy, findById }
 })

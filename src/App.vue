@@ -69,6 +69,15 @@ const userStore = useUserStore()
   width: max-content !important
 }
 
+.h-max-content {
+  height: max-content !important
+}
+
+.fit-max-content {
+  width: max-content !important;
+  height: max-content !important
+}
+
 @media (min-width: 768px) {
 
   .vh-25-md {

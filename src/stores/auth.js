@@ -36,10 +36,12 @@ export const useAuthStore = defineStore('auth', () => {
     return user
   }
   const header = computed(() => {
-    return {
-      withCredentials: true,
-      headers: {
-        Authorization: jwt.value
+    if (token) {
+      return {
+        withCredentials: true,
+        headers: {
+          Authorization: jwt.value
+        }
       }
     }
   })

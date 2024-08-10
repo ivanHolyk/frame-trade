@@ -1,6 +1,5 @@
 <template>
     <div class="order-card" v-if="order" :class="order.visible ? '' : 'opacity-75'">
-
         <div class="row d-inline-flex justify-content-center">
 
 
@@ -20,13 +19,16 @@
                             {{ order.item.en.item_name }}
                         </RouterLink>
                     </h4>
+
                     <div class="action-buttons">
                         <RouterLink :to="`/item/${order.item.id}/${order.item.url_name}`" :id="order.item.id"
                             :urlName="order.item.url_name" class="icon-link me-1 ">
                             <h4 class="align-self-center p-0 m-0"><i class="bi bi-info-circle"></i></h4>
                         </RouterLink>
-                        <button class="btn btn-outline-secondary me-1">-1</button> <button
-                            class="btn btn-outline-secondary me-1"><i class="bi bi-pencil-square"></i></button>
+
+                        <button class="btn btn-outline-secondary me-1">-1</button>
+                        <button class="btn btn-outline-secondary me-1" @click="isEditOrder = !isEditOrder"><i
+                                class="bi bi-pencil-square"></i></button>
                         <button @click="orderStore.setOrderVisibility(!order.visible, order.id)"
                             class="btn btn-outline-secondary me-1"><i class="bi"
                                 :class="order.visible ? 'bi-eye-slash' : 'bi-eye'"></i></button> <button
@@ -56,16 +58,20 @@
             </div>
         </div>
     </div>
+    <EditOrder v-if="isEditOrder" :isEditOrder :order></EditOrder>
 </template>
 <script setup>
 import { toRef, toRefs, useTimeAgo } from '@vueuse/core';
 import { useOrdersStore } from '@/stores/orders';
 import PlatIcon from '@/assets/PlatIcon.vue';
+import EditOrder from '@/components/EditOrder.vue'
+import { ref } from 'vue';
 const props = defineProps(['order', 'isUserOrder'])
 
 
 const { order } = toRefs(props)
 const isUserOrder = props.isUserOrder
+const isEditOrder = ref(false)
 
 const orderStore = useOrdersStore()
 function getThumbnail(url) {

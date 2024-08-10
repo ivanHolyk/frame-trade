@@ -46,21 +46,8 @@ export const useOrdersStore = defineStore('orders', () => {
   }
 
   async function setOrderVisibility(visible, orderId) {
-    /**order_id: 
-"66abecb7b12b7426a117bc18"
-quantity: 
-200 */
-    //PUT https://api.warframe.market/v1/profile/orders/66abecb7b12b7426a117bc18
-    // let order = findOrderById(orderId)
     let request = { order_id: orderId, visible }
-    let response = await axios.put(
-      `${baseUrl}/profile/orders/${orderId}`,
-      request,
-      authStore.header
-    )
-    let data = await response.data
-    let newOrder = data.payload.order
-    updateOrder(newOrder)
+    await updateOrder(request)
   }
 
   function findOrderById(orderId) {
@@ -91,7 +78,20 @@ visible:true
    */
   }
 
-  function updateOrder(newOrder) {
+  async function updateOrder(request) {
+    /**order_id: 
+"66abecb7b12b7426a117bc18"
+quantity: 
+200 */
+    //PUT https://api.warframe.market/v1/profile/orders/66abecb7b12b7426a117bc18
+    let response = await axios.put(
+      `${baseUrl}/profile/orders/${request.order_id}`,
+      request,
+      authStore.header
+    )
+    let data = await response.data
+    let newOrder = data.payload.order
+
     const type = newOrder.order_type
     switch (type) {
       case 'sell':
@@ -120,13 +120,31 @@ visible:true
     }
   }
 
+  async function suggestPrice(urlName) {
+    //https://api.warframe.market/v1/items/nyx_prime_set/statistics?order_type=sell
+    let response = await axios.get(`${baseUrl}/items/${urlName}/statistics?order_type=sell`)
+    let stat = await response.data.payload.statistics_closed
+
+    let price = stat['48hours'][stat['48hours'].length - 1].moving_avg
+    const previousPrice = stat['48hours'][stat['48hours'].length - 2].moving_avg
+
+    if (previousPrice < price) {
+      price = Math.ceil(price)
+    } else {
+      price = Math.floor(price)
+    }
+
+    return price
+  }
   return {
     userOrders,
     ordersByItem,
     fetchUserOrders,
     fetchOrdersByItem,
     setOrderVisibility,
-    postOrder
+    postOrder,
+    suggestPrice,
+    updateOrder
   }
 })
 const condition = (order) => {

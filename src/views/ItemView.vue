@@ -26,7 +26,7 @@
                     <p><i class="bi bi-currency-exchange"></i> Trading Tax: {{ item.trading_tax }}</p>
                     <p v-if="item.mod_max_rank >= 0"><i class="bi bi-arrow-bar-up"></i> Mod Max Rank: {{
                         item.mod_max_rank
-                    }}
+                        }}
                     </p>
                     <p v-if="item.mastery_level"><i class="bi bi-award"></i> Mastery level: {{ item.mastery_level }}</p>
                     <p v-if="item.set_root"><i class="bi bi-box"></i> Set root: {{ item.set_root }}</p>
@@ -69,7 +69,7 @@ const props = defineProps(['id', 'urlName'])
 const itemStore = useItemsStore()
 const item = ref()
 const getRequestedItem = (async () => {
-    let fetchedItem = await itemStore.fetchItem(props.urlName)
+    let fetchedItem = await itemStore.getItem(props.urlName)
     if (fetchedItem.items_in_set) {
         item.value = fetchedItem.items_in_set.find(i => i.url_name === props.urlName)
     } else {
