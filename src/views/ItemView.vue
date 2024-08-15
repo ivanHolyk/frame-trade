@@ -26,7 +26,7 @@
                     <p><i class="bi bi-currency-exchange"></i> Trading Tax: {{ item.trading_tax }}</p>
                     <p v-if="item.mod_max_rank >= 0"><i class="bi bi-arrow-bar-up"></i> Mod Max Rank: {{
                         item.mod_max_rank
-                        }}
+                    }}
                     </p>
                     <p v-if="item.mastery_level"><i class="bi bi-award"></i> Mastery level: {{ item.mastery_level }}</p>
                     <p v-if="item.set_root"><i class="bi bi-box"></i> Set root: {{ item.set_root }}</p>
@@ -55,15 +55,16 @@
                 <p>Loading item data...</p>
             </div>
         </div>
+        <RouterLink :to="{ name: 'itemOrders' }">Orders</RouterLink>
         <RouterView></RouterView>
     </div>
 </template>
 <script setup>
 import { useItemsStore } from '@/stores/item';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 import DucatIcon from '@/assets/DucatIcon.vue';
-import { RouterView } from 'vue-router';
+import { RouterLink, RouterView } from 'vue-router';
 const props = defineProps(['id', 'urlName'])
 
 const itemStore = useItemsStore()
@@ -77,6 +78,10 @@ const getRequestedItem = (async () => {
     }
 })
 getRequestedItem()
+watch(props, (newUrl) => {
+
+    getRequestedItem()
+})
 console.log(item.value)
 
 function getItemName(item, locale) {

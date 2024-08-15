@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { fetchItems, fetchItem } from '@/api/itemApi'
+import axios from 'axios'
 
 // const apiv2 = '/api/v2'
 //https://drops.warframestat.us/data/all.slim.json?1722791610857
@@ -8,15 +9,34 @@ import { fetchItems, fetchItem } from '@/api/itemApi'
 export const useItemsStore = defineStore('items', () => {
   const items = ref([])
 
+  const droptable = ref([])
+
+  async function initDroptable() {
+    droptable.value = localStorage.getItem('droptable')
+    if (!droptable.value) {
+      let response = await axios.get('https://drops.warframestat.us/data/all.json')
+      droptable.value = await response.data
+      try {
+        localStorage.setItem('droptable', JSON.stringify(droptable.value))
+      } catch (error) {
+        console.error(error)
+      }
+    }
+  }
+  initDroptable()
+  getItems()
   function getItems() {
     fetchItems().then((i) => (items.value = i))
   }
-  async function getItem(urlName) {
-    let item = findItem(urlName)
-    if (!item) {
-      item = await fetchItem(urlName)
-      items.value.push(item)
-    }
+
+  async function getItem(urlName, force) {
+    // let item = findItem(urlName)
+    // if (!item || force) {
+    //   item = await fetchItem(urlName)
+    //   items.value.push(item)
+    // }
+    let item = await fetchItem(urlName)
+    items.value.push(item)
     console.log(item)
     return item
   }
@@ -26,8 +46,6 @@ export const useItemsStore = defineStore('items', () => {
       return []
     }
     return items.value.filter((i) => {
-      // console.log('===============================================')
-      // console.log(i)
       return i.item_name.includes(by) || i.url_name.includes(by) || i.id.includes(by)
     })
   }
@@ -54,5 +72,5 @@ export const useItemsStore = defineStore('items', () => {
     )
   }
 
-  return { items, getItem, getItems, findBy, findById }
+  return { items, droptable, getItem, getItems, findBy, findById }
 })

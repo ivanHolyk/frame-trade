@@ -4,6 +4,7 @@ import UserView from '@/views/UserView.vue'
 import LoginView from '@/views/LoginView.vue'
 import OrdersView from '@/views/OrdersView.vue'
 import ItemView from '@/views/ItemView.vue'
+import ItemsView from '@/views/ItemsView.vue'
 import LogoutView from '@/views/LogoutView.vue'
 import UserRedirect from '@/views/UserRedirect.vue'
 import { useAuthStore } from '@/stores/auth'
@@ -55,16 +56,23 @@ const router = createRouter({
       component: OrdersView
     },
     {
-      path: '/item/:id/:urlName',
-      name: 'item',
-      component: ItemView,
-      props: true,
+      path: '/item',
+      name: 'items',
+      component: ItemsView,
       children: [
         {
-          path: 'orders',
-          name: 'itemOrders',
+          path: ':id/:urlName',
+          name: 'item',
+          component: ItemView,
           props: true,
-          component: OrdersView
+          children: [
+            {
+              path: 'orders',
+              name: 'itemOrders',
+              props: true,
+              component: OrdersView
+            }
+          ]
         }
       ]
     },

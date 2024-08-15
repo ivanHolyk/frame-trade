@@ -81,6 +81,8 @@ import { useItemsStore } from '@/stores/item';
 import Modal from 'bootstrap/js/dist/modal';
 const props = defineProps(['isEditOrder', 'order'])
 const order = props.order
+const emit = defineEmits(['editOrderClose'])
+
 
 const ordersStore = useOrdersStore()
 
@@ -131,6 +133,7 @@ watch(isEditOrder, (n) => {
         isEditOrder.value = false
     } else {
         modal.hide()
+        emit('editOrderClose')
 
     }
 })

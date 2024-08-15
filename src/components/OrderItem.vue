@@ -58,7 +58,7 @@
             </div>
         </div>
     </div>
-    <EditOrder v-if="isEditOrder" :isEditOrder :order></EditOrder>
+    <EditOrder v-if="isEditOrder" :isEditOrder :order @editOrderClose="isEditOrder = false"></EditOrder>
 </template>
 <script setup>
 import { toRef, toRefs, useTimeAgo } from '@vueuse/core';

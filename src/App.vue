@@ -32,6 +32,9 @@ const userStore = useUserStore()
             <li class="nav-item">
               <RouterLink to="/market" class="nav-link" activeClass="active">WFM</RouterLink>
             </li>
+            <li class="nav-item">
+              <RouterLink to="/item" class="nav-link" activeClass="active">Items</RouterLink>
+            </li>
 
             <hr class="d-block d-lg-none d-xl-none d-xxl-none">
           </ul>
