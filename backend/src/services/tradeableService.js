@@ -1,4 +1,4 @@
-const Tradeable = require('../models/Tradeable')
+import Tradeable from '../models/Tradeable.js'
 
 const getTradeables = async () => {
   return await Tradeable.find()
@@ -9,7 +9,4 @@ const addTradeable = async (data) => {
   return await newTradeable.save()
 }
 
-module.exports = {
-  getTradeables,
-  addTradeable
-}
+export { getTradeables, addTradeable }

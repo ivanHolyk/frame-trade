@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
+import { Schema, model } from 'mongoose'
 
-const tradeableSchema = new mongoose.Schema({
+const tradeableSchema = new Schema({
   user: String,
   id: String, // Consider using MongoDB ObjectId for unique IDs
   dateOfCreation: Date,
@@ -14,6 +14,6 @@ const tradeableSchema = new mongoose.Schema({
   wfm_order: Object
 })
 
-const Tradeable = mongoose.model('Tradeable', tradeableSchema)
+const Tradeable = model('Tradeable', tradeableSchema)
 
-module.exports = Tradeable
+export { Tradeable }

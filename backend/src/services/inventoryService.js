@@ -1,5 +1,5 @@
-const Inventory = require('../models/Inventory')
-const Tradeable = require('../models/Tradeable')
+import { Inventory } from '../models/Inventory.js'
+import { Tradeable } from '../models/Tradeable.js'
 
 const getInventory = async () => {
   return await Inventory.find()
@@ -10,7 +10,4 @@ const addTradeable = async (data) => {
   return await newTradeable.save()
 }
 
-module.exports = {
-  getInventory,
-  addTradeable
-}
+export { getInventory, addTradeable }

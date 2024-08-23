@@ -1,11 +1,11 @@
-const mongoose = require('mongoose')
+import { Schema, model } from 'mongoose'
 
-const syndicateSchema = new mongoose.Schema({
+const syndicateSchema = new Schema({
   name: String,
   reputation: Number,
   level: String
 })
 
-const Syndicate = mongoose.model('Syndicates', syndicateSchema)
+const Syndicate = model('Syndicates', syndicateSchema)
 
-module.exports = Syndicate
+export { Syndicate }

@@ -1,11 +1,11 @@
-const mongoose = require('mongoose')
+import { Schema, model } from 'mongoose'
 
-const resourceSchema = new mongoose.Schema({
+const resourceSchema = new Schema({
   id: String, // Consider using MongoDB ObjectId for unique IDs
   amount: Number,
   name: String
 })
 
-const Resource = mongoose.model('Resource', resourceSchema)
+const Resource = model('Resource', resourceSchema)
 
-module.exports = Resource
+export { Resource }

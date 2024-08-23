@@ -1,9 +1,10 @@
-const mongoose = require('mongoose')
-const Resource = require('./Resource')
-const Tradeable = require('./Tradeable')
-const Syndicate = require('./Syndicates')
+import { Schema, model } from 'mongoose'
+import { Resource } from './Resource.js'
 
-const inventorySchema = new mongoose.Schema({
+import { Tradeable } from './Tradeable.js'
+import { Syndicate } from './Syndicates.js'
+
+const inventorySchema = new Schema({
   tradeable: [Tradeable.schema],
   resources: [Resource.schema],
   syndicates: [Syndicate.schema],
@@ -11,9 +12,9 @@ const inventorySchema = new mongoose.Schema({
   credits: Number
 })
 
-const Inventory = mongoose.model('Inventory', inventorySchema)
+const Inventory = model('Inventory', inventorySchema)
 
-module.exports = Inventory
+export { Inventory }
 /**
  * What inventory should have:
  * tradeables:[{
