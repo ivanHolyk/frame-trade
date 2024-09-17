@@ -1,16 +1,21 @@
-// middlewares/authMiddleware.js
-import { jwtVerify as verify } from 'jose'
-
-const authMiddleware = (req, res, next) => {
-  const token = req.header('Authorization')?.split(' ')[1] // Expecting Bearer token
-
+import { jwtVerify } from 'jose'
+import { createSecretKey } from 'crypto'
+/**
+ *
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @returns
+ */
+const authMiddleware = async (req, res, next) => {
+  const token = req.header('Authorization')?.split(' ')[1]
   if (!token) {
     return res.status(401).json({ message: 'Access denied. No token provided.' })
   }
 
   try {
-    const decoded = verify(token, process.env.JWT_SECRET) // Verify token with your secret
-    req.user = decoded // Attach user payload to request object
+    const decoded = await jwtVerify(token, createSecretKey(process.env.JWT_ACCESS_SECRET), 'utf-8')
+
+    req.user = decoded
     next()
   } catch (ex) {
     res.status(400).json({ message: 'Invalid token.' })
