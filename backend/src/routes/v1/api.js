@@ -18,7 +18,6 @@ router.get('/item', itemController.getItems)
 
 export { router }
 /**
- *  /api
       /v1
         /user
           /inventory

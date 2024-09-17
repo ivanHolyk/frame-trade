@@ -16,7 +16,7 @@ export function createApp(db) {
   app.use(cors())
   app.use(cookieParser())
 
-  app.use('/api/v1', apiRoutes)
+  app.use('/v1', apiRoutes)
 
   app.get('/', (req, res) => {
     res.send('bruh, nice try')
