@@ -1,8 +1,7 @@
 import { Schema, model } from 'mongoose'
-import { Inventory } from './Inventory.js'
+import { Inventory } from '../Inventory.js'
 
-// Define the schema for the User model
-const userSchema = new Schema({
+const wfmUserSchema = new Schema({
   id: {
     type: String
   },
@@ -106,6 +105,6 @@ const userSchema = new Schema({
   inventory: Inventory.schema
 })
 
-const User = model('User', userSchema)
+const WFMUser = model('wfmUser', wfmUserSchema)
 
-export { User }
+export { WFMUser }
