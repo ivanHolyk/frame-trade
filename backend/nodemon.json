@@ -1,0 +1,6 @@
+{
+  "env": {
+    "LOG_LEVEL": "info"
+  },
+  "verbose": true
+}
