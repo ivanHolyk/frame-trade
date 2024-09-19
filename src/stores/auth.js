@@ -4,7 +4,7 @@ import axios from 'axios'
 import { useUserStore } from './user'
 import { decodeJwt } from 'jose'
 
-const baseUrl = '/api/v1'
+const baseUrl = 'http://localhost:8000/v1'
 
 export const useAuthStore = defineStore('auth', () => {
   const jwt = ref('')
@@ -20,33 +20,41 @@ export const useAuthStore = defineStore('auth', () => {
       device_id: ''
     }
 
-    await axios.options(`${baseUrl}/auth/signin`)
-    let response = await axios.post(`${baseUrl}/auth/signin`, request, {
-      withCredentials: true,
-      headers: {
-        Authorization: prepareAuthorizationMethod(email, password)
+    let response
+    try {
+      response = await axios.post(`${baseUrl}/auth`, request)
+
+      const accessToken = await response.data
+      jwt.value = accessToken
+    } catch (error) {
+      const status = error.response.status
+      console.log(error)
+
+      if (status === 400) {
+        const responseError = error.response.data
+        throw responseError
       }
-    })
-
-    jwt.value = response.headers.getAuthorization()
-
-    const user = await response.data.payload.user
+    }
+    console.log(header.value)
+    response = await axios.get(`${baseUrl}/user`, header.value)
+    const user = response.data
     userStore.setUser(user)
 
     return user
   }
   const header = computed(() => {
-    if (token) {
+    if (jwt.value) {
       return {
-        withCredentials: true,
+        // withCredentials: true,
         headers: {
-          Authorization: jwt.value
+          Authorization: `Bearer ${jwt.value}`
         }
       }
     }
   })
-  function logout() {
+  async function logout() {
     jwt.value = undefined
+    let response = await axios.delete(`${baseUrl}/auth/logout`)
   }
 
   const isAuth = computed(() => jwt)

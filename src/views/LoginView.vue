@@ -9,6 +9,8 @@
                     :disabled="!isLoadComplete">
                 <input type="password" class="form-control mb-3" placeholder="Password" v-model="loginInfo.password"
                     :disabled="!isLoadComplete">
+
+                <span v-if="errorMessage" class="text-danger"> {{ errorMessage.message }}</span>
                 <button type="submit" class="btn btn-primary w-100 mt-3" @click="login" :disabled="!isLoadComplete">
                     <span v-if="!isLoadComplete" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
                     Log in
@@ -21,17 +23,31 @@
 import { ref } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import router from '@/router';
+import { useUserStore } from '@/stores/user';
 
 const loginInfo = ref({})
 const authStore = useAuthStore()
 
+
+const errorMessage = ref()
+
+
 const isLoadComplete = ref(true)
 const login = async () => {
+    errorMessage.value = undefined
     isLoadComplete.value = false
-    const user = await authStore.login(loginInfo.value.email, loginInfo.value.password)
-    isLoadComplete.value = true
-    // router.push(`/user`)
-    router.push(`/user/${user.ingame_name}`)
-    // router.go(-1)
+    try {
+        const user = await authStore.login(loginInfo.value.email, loginInfo.value.password)
+        isLoadComplete.value = true
+        // router.push(`/user`)
+        const userStore = useUserStore()
+        router.push(`/user/${userStore.username}`)
+        // router.go(-1)
+    } catch (error) {
+        errorMessage.value = error
+    } finally {
+        isLoadComplete.value = true
+
+    }
 }
 </script>
