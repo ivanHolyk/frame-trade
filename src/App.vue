@@ -4,88 +4,83 @@ import { useAuthStore } from './stores/auth';
 import { useUserStore } from './stores/user';
 const authStore = useAuthStore()
 const userStore = useUserStore()
+import { ref } from 'vue'
 
+const drawer = ref(null)
 </script>
 
 <template>
-  <header>
+  <v-app>
+    <v-navigation-drawer v-model="drawer">
+      <v-list>
+        <v-list-item>
+
+          <RouterLink to="/" class="v-btn v-btn--text">Home</RouterLink>
+        </v-list-item>
+        <v-list-item>
 
 
-    <nav class="navbar navbar-expand-lg" style="background-color: #42b883;" data-bs-theme="dark">
+          <RouterLink to="/about" class="v-btn v-btn--text">About</RouterLink>
 
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Frame-trade</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+        </v-list-item>
+
+        <v-list-item>
+
+          <RouterLink to="/market" class="v-btn v-btn--text">WFM</RouterLink>
+        </v-list-item>
+        <v-list-item>
 
 
-        <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <RouterLink to="/" class="nav-link" activeClass="active">Home</RouterLink>
-            </li>
-            <li class="nav-item">
-              <RouterLink to="/about" class="nav-link" activeClass="active">About</RouterLink>
-            </li>
-            <li class="nav-item">
-              <RouterLink to="/market" class="nav-link" activeClass="active">WFM</RouterLink>
-            </li>
-            <li class="nav-item">
-              <RouterLink to="/item" class="nav-link" activeClass="active">Items</RouterLink>
-            </li>
-
-            <hr class="d-block d-lg-none d-xl-none d-xxl-none">
-          </ul>
-          <ul class="navbar-nav">
-            <li v-if="authStore.token" class="nav-item">
-              <RouterLink :to="`/user/${userStore.username}`" class="nav-link" activeClass="active">{{
-                userStore.username }}</RouterLink>
-            </li>
-            <li v-if="authStore.token" class="nav-item">
-              <RouterLink :to="`/user/${userStore.username}/orders`" class="nav-link" activeClass="active">Orders
-              </RouterLink>
-            </li>
-            <li v-if="authStore.token" class="nav-item">
-              <a class="nav-link disabled" aria-disabled="true">Inventory</a>
-            </li>
-            <li v-if="authStore.token" class="nav-item">
-              <RouterLink to="/logout" class="nav-link" activeClass="active">Logout</RouterLink>
-            </li>
-          </ul>
-        </div>
+          <RouterLink to="/item" class="v-btn v-btn--text">Items</RouterLink>
+        </v-list-item>
 
 
 
-      </div>
-    </nav>
 
+        <template v-if="!authStore.token">
+          <v-list-item>
+            <RouterLink to="/login" class="v-btn v-btn--text">Log in</RouterLink>
+          </v-list-item>
+        </template>
 
-  </header>
-  <div class="container">
-    <RouterView />
-  </div>
+        <template v-if="authStore.token">
+          <v-list-item>
+            <RouterLink :to="`/user/${userStore.username}`" class="v-btn v-btn--text">{{ userStore.username }}
+            </RouterLink>
+          </v-list-item>
+          <v-list-item>
+            <RouterLink :to="`/user/${userStore.username}/orders`" class="v-btn v-btn--text">Orders</RouterLink>
+          </v-list-item>
+          <v-list-item>
+            <v-btn text disabled>Inventory</v-btn></v-list-item>
+          <v-list-item>
+            <RouterLink to="/logout" class="v-btn v-btn--text">Logout</RouterLink>
+          </v-list-item>
+        </template>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-app-bar color="#42b883" dark>
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+
+      <RouterLink to="/" class="v-toolbar-title">Frame-trade</RouterLink>
+
+      <v-spacer></v-spacer>
+
+      <v-toolbar-items>
+
+      </v-toolbar-items>
+    </v-app-bar>
+
+    <v-main>
+      <RouterView />
+    </v-main>
+
+  </v-app>
 </template>
-<style>
-.w-max-content {
-  width: max-content !important
-}
 
-.h-max-content {
-  height: max-content !important
-}
-
-.fit-max-content {
-  width: max-content !important;
-  height: max-content !important
-}
-
-@media (min-width: 768px) {
-
-  .vh-25-md {
-
-    /* height: 25vh; */
-  }
+<style scoped>
+.vh-25-md {
+  height: 25vh;
 }
 </style>

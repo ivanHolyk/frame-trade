@@ -1,28 +1,31 @@
 <template>
-    <div class="mb-2">
-        <label for="exampleDataList" class="form-label">Items</label>
-        <input type="search" class="form-control" list="itemsDatalist" id="exampleDataList"
-            placeholder="Type to search..." v-model="selectedItemUrl" name="itemSearch">
-        <datalist id="itemsDatalist">
-            <option v-for="item in itemStore.items" :value="item.url_name">
-                {{ item.item_name }}
-            </option>
-        </datalist>
-    </div>
+
+    <v-autocomplete v-model="selectedItemUrl" :label="'Items'" :placeholder="'Type to search...'" name="itemSearch"
+        append-icon="mdi-magnify" type="search" :items="itemOptions" :item-title="'text'" :item-value="'value'"
+        autocomplete></v-autocomplete>
     <RouterView></RouterView>
+
+
 </template>
+
 <script setup>
 import { useItemsStore } from '@/stores/item';
-import ItemView from './ItemView.vue';
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { RouterView } from 'vue-router';
 import { watchDebounced } from '@vueuse/core';
 import router from '@/router';
-const itemStore = useItemsStore()
-const selectedItemUrl = ref()
 
+const itemStore = useItemsStore()
+const selectedItemUrl = ref('')
 const selectedItem = ref()
 
+// Prepare item options for the autocomplete
+const itemOptions = computed(() => {
+    return itemStore.items.map(item => ({
+        text: item.item_name,
+        value: item.url_name
+    }))
+})
 
 watchDebounced(
     selectedItemUrl,
@@ -34,5 +37,4 @@ watchDebounced(
     },
     { debounce: 1000, maxWait: 2000 },
 )
-
 </script>
