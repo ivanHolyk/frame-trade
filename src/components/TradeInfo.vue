@@ -16,7 +16,7 @@
 </template>
 <script setup>
 import TradeMessage from '@/components/TradeMessage.vue'
-import UserInfo from './UserInfo.vue';
+import UserInfo from './WFMUserInfo.vue';
 
 const props = defineProps(['order', 'item', 'index', 'operation'])
 const order = props.order;

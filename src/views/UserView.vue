@@ -6,7 +6,7 @@
 </template>
 <script setup>
 import { useUserStore } from '@/stores/user';
-import UserInfo from '@/components/UserInfo.vue';
+import UserInfo from '@/components/WFMUserInfo.vue';
 import { storeToRefs } from 'pinia';
 
 
