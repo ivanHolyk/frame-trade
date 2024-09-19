@@ -1,6 +1,6 @@
 # frame-trade
 
-This template should help get you started developing with Vue 3 in Vite.
+frametrade.online - this is a project, wich provides inventory accounting for your account in Warframe. Also, the project helps to find best buy-sell trade combination for in-game items and store state of inventory.
 
 ## Recommended IDE Setup
 
