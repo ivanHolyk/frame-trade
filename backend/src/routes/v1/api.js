@@ -9,12 +9,14 @@ router
   .post(authMiddleware, addInventoryItem)
 
 //stub for now
-const marketController = { market: () => 'market' }
+const marketController = { market: (req, res) => res.send('market') }
 router.get('/market', marketController.market)
 
-//stub for now
-const itemController = { getItems: () => ['power_drift', 'nyx_prime_set'] }
-router.get('/item', itemController.getItems)
+import { getDroptable } from '../../controllers/droptableController.js'
+router.get('/droptable', getDroptable)
+
+import {getItems} from '../../controllers/itemController.js'
+router.get('/item', getItems)
 
 export { router }
 /**
@@ -22,7 +24,8 @@ export { router }
         /user
           /inventory
           /wfmCredentials
-          /order  authorized warframe.market
-        /market 	basically proxy to warframe.market non authorized
-        /item		uses data from warframestats once in a month or so and caches it 
+          /order    authorized warframe.market
+        /market 	  basically proxy to warframe.market non authorized
+        /item		    uses data from api.warframe.market/v1/item
+        /droptable  uses data from warframestats once in a month or so and caches it 
  */
