@@ -16,7 +16,7 @@ const item = props.item;
 const order = props.order;
 const operation = props.operation
 const input = ref(null)
-const text = computed(() => `/w ${order.user.ingame_name} Hi! I want to ${operation}: "${item.en.item_name}" for ${order.platinum} platinum. (warframe.market)`)
+const text = computed(() => `/w ${order.user.ingame_name} Hi! I want to ${operation}: "${item.en.item_name}" for ${order.platinum} platinum. (frametrade.online)`)
 
 const copyStatus = ref('Copy')
 

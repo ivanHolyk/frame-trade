@@ -3,8 +3,7 @@
         <div class="row d-inline-flex justify-content-center">
 
 
-            <div class=" me-3 mb-3 col-xl-3 col-4 ">
-
+            <div v-if="order.item" class=" me-3 mb-3 col-xl-3 col-4 ">
                 <img v-if="order.item" :src="getThumbnail(order.item.sub_icon ? order.item.sub_icon : order.item.thumb)"
                     alt="Item Thumbnail" class=" img-thumbnail">
             </div>
@@ -20,20 +19,11 @@
                         </RouterLink>
                     </h4>
 
-                    <div class="action-buttons">
-                        <RouterLink :to="`/item/${order.item.id}/${order.item.url_name}`" :id="order.item.id"
-                            :urlName="order.item.url_name" class="icon-link me-1 ">
-                            <h4 class="align-self-center p-0 m-0"><i class="bi bi-info-circle"></i></h4>
-                        </RouterLink>
+                    <RouterLink :to="`/item/${order.item.id}/${order.item.url_name}`" :id="order.item.id"
+                        :urlName="order.item.url_name" class="icon-link me-1 ">
+                        <h4 class="align-self-center p-0 m-0"><i class="bi bi-info-circle"></i></h4>
+                    </RouterLink>
 
-                        <button class="btn btn-outline-secondary me-1">-1</button>
-                        <button class="btn btn-outline-secondary me-1" @click="isEditOrder = !isEditOrder"><i
-                                class="bi bi-pencil-square"></i></button>
-                        <button @click="orderStore.setOrderVisibility(!order.visible, order.id)"
-                            class="btn btn-outline-secondary me-1"><i class="bi"
-                                :class="order.visible ? 'bi-eye-slash' : 'bi-eye'"></i></button> <button
-                            class="btn btn-outline-danger"><i class="bi bi-trash"></i></button>
-                    </div>
                 </div>
                 <h5 v-if="order.subtype">{{ order.subtype }}</h5>
                 <div class="order-details-body">
@@ -55,6 +45,16 @@
                     <span v-for="tag in order.item.tags" :key="tag" class="badge bg-secondary">{{ tag
                         }}</span>
                 </p>
+            </div>
+            <div v-if="order.item" class="action-buttons">
+
+                <button class="btn btn-outline-secondary me-1">-1</button>
+                <button class="btn btn-outline-secondary me-1" @click="isEditOrder = !isEditOrder"><i
+                        class="bi bi-pencil-square"></i></button>
+                <button @click="orderStore.setOrderVisibility(!order.visible, order.id)"
+                    class="btn btn-outline-secondary me-1"><i class="bi"
+                        :class="order.visible ? 'bi-eye-slash' : 'bi-eye'"></i></button> <button
+                    class="btn btn-outline-danger"><i class="bi bi-trash"></i></button>
             </div>
         </div>
     </div>
@@ -106,6 +106,7 @@ function getClassByPlatform(platform) {
 
 .action-buttons {
     display: inline-flex;
+    justify-content: end;
 }
 
 .order-card {

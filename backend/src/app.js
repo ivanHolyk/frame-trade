@@ -19,7 +19,7 @@ export function createApp(db) {
   app.use('/v1', apiRoutes)
 
   app.get('/', (req, res) => {
-    res.send('bruh, nice try')
+    res.send({ message: 'bruh, nice try' })
   })
 
   connect(process.env.MONGODB_URI)

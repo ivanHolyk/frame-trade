@@ -11,17 +11,17 @@
 
         <tr>
           <td>There is total items in trade</td>
-          <td> {{ itemStore.items.length }}</td>
+          <td> {{ itemStore?.items?.length }}</td>
         </tr>
 
         <tr>
           <td>Among them sets</td>
-          <td> {{ itemStore.sets.length }}</td>
+          <td> {{ itemStore?.sets?.length }}</td>
         </tr>
 
         <tr>
           <td>Warframes</td>
-          <td> {{ warframes.length }}</td>
+          <td> {{ warframes?.length }}</td>
         </tr>
 
         <tr>

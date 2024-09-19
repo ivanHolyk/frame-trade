@@ -6,13 +6,13 @@ import OrdersView from '@/views/OrdersView.vue'
 import ItemView from '@/views/ItemView.vue'
 import ItemsView from '@/views/ItemsView.vue'
 import LogoutView from '@/views/LogoutView.vue'
-import UserRedirect from '@/views/UserRedirect.vue'
 import { useAuthStore } from '@/stores/auth'
+import HomeView from '@/views/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { path: '/', redirect: '/user' },
+    { path: '/', name: 'home', component: HomeView },
     {
       path: '/market',
       name: 'market',
@@ -30,8 +30,6 @@ const router = createRouter({
     },
     {
       path: '/user',
-      // name: 'userRedirect',
-      // component: UserRedirect,
       children: [
         {
           path: ':username',
@@ -94,14 +92,11 @@ router.beforeEach((to, from, next) => {
   console.log('to', to)
   console.log('from', from)
   console.log('redirect from', from.redirectedFrom)
+
   if (store.requiresAuth && to.path !== '/login') {
-    next('/login')
+    // next('/login')
+    next()
   } else {
-    // if (from.path === '/login') {
-    //   next(from.redirectedFrom)
-    // } else {
-    //   next()
-    // }
     next()
   }
 })
