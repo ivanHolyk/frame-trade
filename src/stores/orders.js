@@ -4,8 +4,9 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 import { useUserStore } from './user'
 import { useAuthStore } from './auth'
+import { backendApi } from '@/api/axios'
 
-const baseUrl = '/api/v1'
+const baseUrl = 'http://localhost:8080/v1'
 //PUT /v1/profile/orders/close/66ab625f5ca322214f18012b
 //sell 1 piece
 //PUT https://api.warframe.market/v1/profile/orders/close/66abecb7b12b7426a117bc18
@@ -19,9 +20,7 @@ export const useOrdersStore = defineStore('orders', () => {
   const authStore = useAuthStore()
 
   async function fetchUserOrders() {
-    let response = await axios.get(`${baseUrl}/profile/${userStore.username}/orders`, {
-      headers: { Authorization: authStore.token }
-    })
+    let response = await backendApi.get(`${baseUrl}/user/order`)
     const data = await response.data
     userOrders.value = await data.payload
     return await data.payload
