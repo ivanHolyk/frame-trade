@@ -59,14 +59,6 @@ export const useAuthStore = defineStore('auth', () => {
 
   const isAuth = computed(() => jwt)
 
-  function prepareAuthorizationMethod(email, password) {
-    return isJwtValid() ? jwt.value : `Basic ${btoa(`${email}:${password}`)}`
-  }
-
-  function isJwtValid() {
-    return jwt.value && new Date() < new Date(decodeJwt(jwt.value).exp * 1000)
-  }
-
   const requiresAuth = computed(() => !jwt.value)
 
   const token = computed(() => jwt.value)
