@@ -1,27 +1,41 @@
 <template>
-    <div v-if="order && order.user">
-        <button class="list-group-item list-group-item-action" type="button" data-bs-toggle="collapse"
-            :data-bs-target="'#' + id" aria-expanded="false" :aria-controls="id">
-            <UserInfo v-if="order.user" :user="order.user">
-                <span class="h3 me-3">
-                    <i class="bi bi-boxes"></i> {{ order.quantity }}
-                </span>
-            </UserInfo>
-        </button>
-        <div class="collapse list-group-item" :id="id">
-            <TradeMessage v-if="order" :order="order" :item="item" :operation="operation">
-            </TradeMessage>
-        </div>
-    </div>
+  <div v-if="order && order.user">
+    <!-- Button to expand/collapse -->
+    <v-list-item @click="toggleCollapse(id)">
+      <span class="h3 me-3"> <v-icon left>mdi-package-variant</v-icon> {{ order.quantity }} </span>
+      <WFMUserInfo v-if="order.user" :user="order.user"> </WFMUserInfo>
+    </v-list-item>
+
+    <!-- Collapsible content -->
+    <v-expand-transition>
+      <div v-show="isExpanded(id)" class="pa-4">
+        <TradeMessage v-if="order" :order="order" :item="item" :operation="operation"></TradeMessage>
+      </div>
+    </v-expand-transition>
+  </div>
+  <v-divider class="border-opacity-25"></v-divider>
 </template>
 <script setup>
 import TradeMessage from '@/components/TradeMessage.vue'
-import UserInfo from './WFMUserInfo.vue';
+import WFMUserInfo from './WFMUserInfo.vue'
 
 const props = defineProps(['order', 'item', 'index', 'operation'])
-const order = props.order;
+const order = props.order
 const item = props.item
 const index = props.index
 const operation = props.operation
 const id = item.url_name + '_' + operation + '_' + index
+
+import { ref } from 'vue'
+
+// Maintain a list of collapsed/expanded state for items
+const expandedItems = ref({})
+
+const toggleCollapse = (id) => {
+  expandedItems.value[id] = !expandedItems.value[id]
+}
+
+const isExpanded = (id) => {
+  return expandedItems.value[id]
+}
 </script>
