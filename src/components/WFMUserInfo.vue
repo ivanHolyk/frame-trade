@@ -1,172 +1,155 @@
 <template>
-    <div class="d-flex flex-column">
-        <slot>
+    <div class="user-details">
+        <slot></slot>
 
-        </slot>
         <div class="public-info">
-            <div v-if="user.ingame_name" class="h3 me-3">
-                <span class="me-2"><i class="bi bi-person"></i> {{ user.ingame_name }}</span>
-                <span v-if="user.status" :style="setStatusClass(user.status)"> {{ user.status }} </span>
+            <div v-if="user.ingame_name" class="user-name">
+                <v-icon left>mdi-account</v-icon> {{ user.ingame_name }}
+                <span v-if="user.status" :style="setStatusClass(user.status)">
+                    {{ user.status }}
+                </span>
             </div>
-            <div v-if="user.reputation" class="h5">
-                <i class="bi bi-star-fill"></i> Rep: {{ user.reputation }}
+
+            <div v-if="user.reputation" class="user-reputation">
+                <v-icon left>mdi-star</v-icon> Rep: {{ user.reputation }}
             </div>
-            <div v-if="user.locale || user.region">
-                <i class="bi bi-geo-alt-fill"></i> Locale: {{ user.locale }}, Region: {{ user.region }}
+
+            <div v-if="user.locale || user.region" class="user-location">
+                <v-icon left>mdi-map-marker</v-icon> Locale: {{ user.locale }}, Region: {{ user.region }}
             </div>
-            <div v-if="user.id">
-                <i class="bi bi-person-badge"></i> ID: {{ user.id }}
+
+            <div v-if="user.id" class="user-id">
+                <v-icon left>mdi-badge-account</v-icon> ID: {{ user.id }}
             </div>
+
             <div v-if="user.last_seen">Last seen: {{ useTimeAgo(user.last_seen) }}</div>
         </div>
-        <div class="d-flex flex-wrap mb-div-2">
+
+        <div v-if="hasAdditionalInfo" class="additional-info">
             <div class="user-mail">
                 <span v-if="user.has_mail !== undefined">
-                    <i class="bi bi-envelope"></i> Has Mail: {{ user.has_mail ? 'Yes' : 'No' }}
+                    <v-icon left>mdi-email</v-icon> Has Mail: {{ user.has_mail ? 'Yes' : 'No' }}
                 </span>
                 <span v-if="user.unread_messages !== undefined">
                     Unread Messages: {{ user.unread_messages }}
                 </span>
                 <span v-if="user.written_reviews !== undefined">
-                    <i class="bi bi-pencil-square">
-
-                    </i> Written Reviews: {{ user.written_reviews }}
+                    <v-icon left>mdi-pencil</v-icon> Written Reviews: {{ user.written_reviews }}
                 </span>
-                <br>
             </div>
 
             <div class="account-info">
-
-
                 <div v-if="user.banned">
-                    <span>
-                        <i class="bi bi-slash-circle"></i> Banned: {{ user.banned ? 'Yes' : 'No' }}
-                        <span v-if="user.ban_reason">
-                            Ban reason: {{ user.ban_reason }}
-                        </span>
-                    </span>
+                    <v-icon left>mdi-block-helper</v-icon> Banned: {{ user.banned ? 'Yes' : 'No' }}
+                    <span v-if="user.ban_reason"> Ban reason: {{ user.ban_reason }} </span>
                 </div>
 
                 <span v-if="user.anonymous !== undefined">
-                    <i class="bi bi-eye-slash">
-
-                    </i> Anonymous: {{ user.anonymous ? 'Yes' : 'No' }}
+                    <v-icon left>mdi-eye-off</v-icon> Anonymous: {{ user.anonymous ? 'Yes' : 'No' }}
                 </span>
 
                 <span v-if="user.verification !== undefined">
-                    <i class="bi bi-check-circle">
-
-                    </i> Verified: {{ user.verification ? 'Yes' : 'No' }}
+                    <v-icon left>mdi-check-circle</v-icon> Verified: {{ user.verification ? 'Yes' : 'No' }}
                 </span>
                 <span v-if="user.check_code">
-                    <i class="bi bi-key"></i> Check Code: {{ user.check_code }}
+                    <v-icon left>mdi-key</v-icon> Check Code: {{ user.check_code }}
                 </span>
                 <span v-if="user.platform">
-                    <i class="bi bi-display">
-
-                    </i> Platform: {{ user.platform }}
+                    <v-icon left>mdi-monitor</v-icon> Platform: {{ user.platform }}
                 </span>
 
                 <span v-if="userStore.haveAnyLinkendAccountsByUser(user)">
-                    <i class="bi bi-link-45deg">
-
-                    </i> Linked Accounts:
+                    <v-icon left>mdi-link</v-icon> Linked Accounts:
                     <ul>
                         <li v-if="user.linked_accounts.steam_profile">
-                            <i class="bi bi-steam"></i> Steam: {{ user.linked_accounts.steam_profile ? 'Linked' : `Not
-                            Linked`}}
+                            <v-icon left>mdi-steam</v-icon> Steam:
+                            {{ user.linked_accounts.steam_profile ? 'Linked' : 'Not Linked' }}
                         </li>
                         <li v-if="user.linked_accounts.patreon_profile">
-                            <i class="bi bi-patreon">
-
-                            </i> Patreon: {{ user.linked_accounts.patreon_profile ? 'Linked' : 'Not Linked' }}
+                            <v-icon left>mdi-patreon</v-icon> Patreon:
+                            {{ user.linked_accounts.patreon_profile ? 'Linked' : 'Not Linked' }}
                         </li>
                         <li v-if="user.linked_accounts.xbox_profile">
-                            <i class="bi bi-xbox"></i> Xbox: {{ user.linked_accounts.xbox_profile ? 'Linked' : `Not
-                            Linked`}}
+                            <v-icon left>mdi-xbox</v-icon> Xbox:
+                            {{ user.linked_accounts.xbox_profile ? 'Linked' : 'Not Linked' }}
                         </li>
                         <li v-if="user.linked_accounts.discord_profile">
-                            <i class="bi bi-discord"></i> Discord: {{ user.linked_accounts.discord_profile ? 'Linked' :
-                                `Not
-                            Linked` }}
+                            <v-icon left>mdi-discord</v-icon> Discord:
+                            {{ user.linked_accounts.discord_profile ? 'Linked' : 'Not Linked' }}
                         </li>
                         <li v-if="user.linked_accounts.github_profile">
-                            <i class="bi bi-github"></i> Github: {{ user.linked_accounts.github_profile ? 'Linked' :
-                                `Not
-                            Linked` }}
+                            <v-icon left>mdi-github</v-icon> Github:
+                            {{ user.linked_accounts.github_profile ? 'Linked' : 'Not Linked' }}
                         </li>
                     </ul>
-
                 </span>
 
                 <span v-if="user.role">
-                    <i class="bi bi-person-rolodex"></i> Role: {{ user.role }}
+                    <v-icon left>mdi-account-card-details</v-icon> Role: {{ user.role }}
                 </span>
             </div>
         </div>
     </div>
-    <router-view />
 </template>
 <script setup>
-import { RouterView } from 'vue-router';
-import { useUserStore } from '@/stores/user';
-import { useTimeAgo } from '@vueuse/core';
-const props = defineProps(['user'])
+import { useUserStore } from '@/stores/user'
+import { useTimeAgo } from '@vueuse/core'
+import { computed } from 'vue'
+const props = defineProps({
+    user: {
+        required: true
+    }
+})
 const user = props.user
-
 const userStore = useUserStore()
-
 
 function setStatusClass(status) {
     let cssClass = {}
     switch (status) {
         case 'ingame':
             cssClass.color = 'purple'
-            break;
+            break
         case 'online':
             cssClass.color = 'green'
-            break;
+            break
         case 'offline':
             cssClass.color = 'red'
-            break;
+            break
         default:
-            break;
+            break
     }
     return cssClass
 }
+const hasAdditionalInfo = computed(() => {
+    return (
+        user.has_mail !== undefined ||
+        user.unread_messages !== undefined ||
+        user.written_reviews !== undefined ||
+        user.banned ||
+        user.anonymous !== undefined ||
+        user.verification !== undefined ||
+        user.check_code ||
+        user.platform ||
+        userStore.haveAnyLinkendAccountsByUser(user) ||
+        user.role
+    )
+})
 </script>
-<style>
-.public-info {
+
+<style scoped>
+.user-details {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.public-info,
+.account-info,
+.user-mail {
+    margin-bottom: 1rem;
+}
+
+.account-info span {
+    display: block;
     margin-bottom: 0.5rem;
-
-}
-
-.public-info>div {
-    display: flex;
-
-    margin-right: 1rem;
-    align-items: center;
-    margin-bottom: 0;
-
-}
-
-.account-info {
-    justify-content: space-between;
-}
-
-.account-info>span {
-    margin-right: 1rem;
-}
-
-.user-mail>span {
-    margin-right: 0.25rem;
-
-
-}
-
-.mb-div-2>div {
-    margin-bottom: 0.5rem
 }
 </style>

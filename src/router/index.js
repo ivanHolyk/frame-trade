@@ -8,6 +8,7 @@ import ItemsView from '@/views/ItemsView.vue'
 import LogoutView from '@/views/LogoutView.vue'
 import { useAuthStore } from '@/stores/auth'
 import HomeView from '@/views/HomeView.vue'
+import WFMUserAccount from '@/components/WFMUserAccount.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,14 +35,20 @@ const router = createRouter({
         {
           path: ':username',
           name: 'userWithUsername',
-          // props: true,
           component: UserView,
           children: [
             {
-              path: 'orders',
-              name: 'userOrders',
-              props: { isUserOrders: true },
-              component: OrdersView
+              path: 'wfm',
+              name: 'wfmAccount',
+              component: WFMUserAccount,
+              children: [
+                {
+                  path: 'orders',
+                  name: 'userOrders',
+                  props: { isUserOrders: true },
+                  component: OrdersView
+                }
+              ]
             }
           ]
         }
