@@ -1,5 +1,7 @@
 import { jwtVerify } from 'jose'
 import { createSecretKey } from 'crypto'
+import { setAuthToken } from '../api/auth.js'
+
 /**
  *
  * @param {import('express').Request} req
@@ -14,6 +16,8 @@ const authMiddleware = async (req, res, next) => {
 
   try {
     const decoded = await jwtVerify(token, createSecretKey(process.env.JWT_ACCESS_SECRET), 'utf-8')
+
+    setAuthToken(token)
 
     req.user = decoded
     next()
