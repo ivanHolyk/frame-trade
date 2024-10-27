@@ -1,6 +1,6 @@
 # frame-trade
 
-frametrade.online - this is a project, wich provides inventory accounting for your account in Warframe. Also, the project helps to find best buy-sell trade combination for in-game items and store state of inventory.
+frametrade.online - this is a project, which provides inventory accounting for your account in Warframe. Also, the project helps to find best buy-sell trade combination for in-game items and store state of inventory.
 
 ## Recommended IDE Setup
 
