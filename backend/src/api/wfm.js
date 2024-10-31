@@ -5,6 +5,7 @@ const baseURL = 'https://api.warframe.market'
  */
 let axios = undefined
 let authToken
+let authCookie
 const getWfmAxios = () => {
   if (!axios) {
     axios = new Axios({ baseURL })
@@ -12,6 +13,8 @@ const getWfmAxios = () => {
       (config) => {
         if (authToken) {
           config.headers['Authorization'] = `Bearer ${authToken}`
+        } else if (authCookie) {
+          config.headers['Cookie'] = authCookie // Set the Cookie header if authCookie is available
         }
         return config
       },
@@ -23,4 +26,7 @@ const getWfmAxios = () => {
 const setWfmAuthToken = (token) => {
   authToken = token
 }
-export { getWfmAxios, setWfmAuthToken }
+const setWfmAuthCookie = (cookie) => {
+  authCookie = cookie
+}
+export { getWfmAxios, setWfmAuthToken, setWfmAuthCookie }

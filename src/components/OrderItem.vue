@@ -1,63 +1,67 @@
 <template>
-  <div class="order-card" v-if="order" :class="order.visible ? '' : 'opacity-75'">
-    <div class="row d-inline-flex justify-content-center">
-      <div v-if="order.item" class="me-3 mb-3 col-xl-3 col-4">
-        <img v-if="order.item" :src="getThumbnail(order.item.sub_icon ? order.item.sub_icon : order.item.thumb)"
-          alt="Item Thumbnail" class="img-thumbnail" />
-      </div>
+  <v-card v-if="order" :class="{ 'opacity-75': !order.visible }">
+    <v-row>
+      <v-col v-if="order.item">
+        <v-img :src="getThumbnail(order.item.sub_icon || order.item.thumb)" alt="Item Thumbnail"
+          class="rounded"></v-img>
+      </v-col>
 
-      <div class="order-details mb-3 col">
-        <div v-if="order.item" class="order-header">
-          <h4 class="align-self-center p-0 m-0">
-            <RouterLink :to="`/item/${order.item.id}/${order.item.url_name}/orders`" :id="order.item.id"
+      <v-col class="order-details">
+        <v-row class="order-header">
+          <v-col>
+            <h4>
+              <RouterLink :to="`/item/${order.item.id}/${order.item.url_name}/orders`" :id="order.item.id"
+                :urlName="order.item.url_name">
+                {{ order.item.en.item_name }}
+              </RouterLink>
+            </h4>
+          </v-col>
+          <v-col>
+            <RouterLink :to="`/item/${order.item.id}/${order.item.url_name}`" :id="order.item.id"
               :urlName="order.item.url_name">
-              {{ order.item.en.item_name }}
+              <v-icon>mdi-information</v-icon>
             </RouterLink>
-          </h4>
+          </v-col>
+        </v-row>
 
-          <RouterLink :to="`/item/${order.item.id}/${order.item.url_name}`" :id="order.item.id"
-            :urlName="order.item.url_name" class="icon-link me-1">
-            <h4 class="align-self-center p-0 m-0"><i class="bi bi-info-circle"></i></h4>
-          </RouterLink>
-        </div>
-        <h5 v-if="order.subtype">{{ order.subtype }}</h5>
-        <div class="order-details-body">
-          <p>Order ID: {{ order.id }}</p>
-          <p><i class="bi" :class="order.visible ? 'bi-eye' : 'bi-eye-slash'"></i></p>
-          <p>{{ order.quantity }} <i class="bi bi-boxes"></i></p>
-          <p>
-            Platinum: {{ order.platinum }}
+        <v-row>
+          <v-col v-if="order.subtype">
+            <h5>{{ order.subtype }}</h5>
+          </v-col>
+        </v-row>
+
+        <v-row class="order-details-body">
+          <v-col>Order ID: {{ order.id }}</v-col>
+          <v-col><v-icon :icon="order.visible ? 'mdi-eye' : 'mdi-eye-off'"></v-icon></v-col>
+          <v-col>{{ order.quantity }} <v-icon>mdi-box-multiple</v-icon></v-col>
+          <v-col>Platinum: {{ order.platinum }}
             <PlatIcon />
-          </p>
-          <p v-if="order.item && order.item.ducats">Ducats: {{ order.item.ducats }}</p>
-          <p v-if="order.mod_rank >= 0">Rank: {{ order.mod_rank }}</p>
-          <p>Last Update: {{ useTimeAgo(order.last_update) }}</p>
-          <p v-if="order.creation_date">Create: {{ useTimeAgo(order.creation_date) }}</p>
-          <p>
-            Platform: <i class="bi" :class="getClassByPlatform(order.platform)"></i>
-            {{ order.platform }}
-          </p>
-          <p>Region: {{ order.region }}</p>
-        </div>
-        <p v-if="order.item && order.item.tags" class="order-tags">
-          <span v-for="tag in order.item.tags" :key="tag" class="badge bg-secondary">{{
-            tag
-            }}</span>
-        </p>
-      </div>
-      <div v-if="order.item" class="action-buttons">
-        <button class="btn btn-outline-secondary me-1">-1</button>
-        <button class="btn btn-outline-secondary me-1" @click="isEditOrder = !isEditOrder">
-          <i class="bi bi-pencil-square"></i>
-        </button>
-        <button @click="orderStore.setOrderVisibility(!order.visible, order.id)" class="btn btn-outline-secondary me-1">
-          <i class="bi" :class="order.visible ? 'bi-eye-slash' : 'bi-eye'"></i>
-        </button>
-        <button class="btn btn-outline-danger"><i class="bi bi-trash"></i></button>
-      </div>
-    </div>
-  </div>
-  <EditOrder v-if="isEditOrder" :isEditOrder :order @editOrderClose="isEditOrder = false"></EditOrder>
+          </v-col>
+          <v-col v-if="order.item && order.item.ducats">Ducats: {{ order.item.ducats }}</v-col>
+          <v-col v-if="order.mod_rank >= 0">Rank: {{ order.mod_rank }}</v-col>
+          <v-col>Last Update: {{ useTimeAgo(order.last_update) }}</v-col>
+          <v-col v-if="order.creation_date">Create: {{ useTimeAgo(order.creation_date) }}</v-col>
+          <v-col>
+            Platform: <v-icon :icon="getClassByPlatform(order.platform)"></v-icon> {{ order.platform }}
+          </v-col>
+          <v-col>Region: {{ order.region }}</v-col>
+        </v-row>
+
+        <v-row v-if="order.item && order.item.tags" class="order-tags">
+          <v-chip v-for="tag in order.item.tags" :key="tag" color="secondary">{{ tag }}</v-chip>
+        </v-row>
+      </v-col>
+
+      <v-col v-if="order.item" class="action-buttons">
+        <v-btn icon @click="decreaseQuantity"><v-icon>mdi-minus</v-icon></v-btn>
+        <v-btn icon @click="toggleEditOrder"><v-icon>mdi-pencil</v-icon></v-btn>
+        <v-btn icon @click="toggleOrderVisibility"><v-icon
+            :icon="order.visible ? 'mdi-eye-off' : 'mdi-eye'"></v-icon></v-btn>
+        <v-btn icon color="red"><v-icon>mdi-trash-can</v-icon></v-btn>
+      </v-col>
+    </v-row>
+  </v-card>
+  <EditOrder v-if="isEditOrder" :order="order" @editOrderClose="isEditOrder = false"></EditOrder>
 </template>
 <script setup>
 import { toRef, toRefs, useTimeAgo } from '@vueuse/core'
@@ -104,6 +108,7 @@ function getClassByPlatform(platform) {
 .action-buttons {
   display: inline-flex;
   justify-content: end;
+  flex-wrap: wrap;
 }
 
 .order-card {

@@ -1,5 +1,6 @@
 import { getAuthAxios } from '../api/auth.js'
-import { getWfmAxios, setWfmAuthToken } from '../api/wfm.js'
+import { getWfmAxios, setWfmAuthCookie } from '../api/wfm.js'
+import { getCookieString } from '../WFMTokenCookieUtils.js'
 
 const fetchOrders = async () => {
   try {
@@ -39,13 +40,18 @@ const fetchOrders = async () => {
    */
     console.log(token)
     console.log(wfmUsername)
-    setWfmAuthToken(token)
-    const WfmAxios = getWfmAxios()
-    //TODO write an adapter that transforms token to cookie because of api.warframe.market auth
-    const response = await WfmAxios.get(url)
 
+    setWfmAuthCookie(getCookieString(token))
+
+    const WfmAxios = getWfmAxios()
+
+    const response = await WfmAxios.get(url)
+    console.log(response)
     const data = await response.data
     const orders = JSON.parse(data).payload
+    /**
+     * {buy_orders:[],sell_orders:[]}
+     */
 
     console.log(orders)
     return orders

@@ -20,10 +20,11 @@ export const useOrdersStore = defineStore('orders', () => {
   const authStore = useAuthStore()
 
   async function fetchUserOrders() {
-    let response = await backendApi.get(`${baseUrl}/user/order`)
+    const response = await backendApi.get(`${baseUrl}/user/order`)
     const data = await response.data
-    userOrders.value = await data.payload
-    return await data.payload
+    console.log(data)
+    userOrders.value = data
+    return data
   }
 
   async function fetchOrdersByItem(urlName) {
