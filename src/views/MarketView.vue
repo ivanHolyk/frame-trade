@@ -2,7 +2,14 @@
   <v-container class="py-10">
     <v-btn disabled class="mb-4"> Login into Warframe market </v-btn>
 
-    <v-btn color="primary" class="mb-4" @click="getItems" :loading="!isLoadComplete" :disabled="!isLoadComplete" block>
+    <v-btn
+      color="primary"
+      class="mb-4"
+      @click="getItems"
+      :loading="!isLoadComplete"
+      :disabled="!isLoadComplete"
+      block
+    >
       <template v-slot:loader>
         <v-progress-circular indeterminate color="white" size="20" />
       </template>

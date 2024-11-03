@@ -5,10 +5,7 @@
     <DucatIcon />
   </p>
   <p v-if="item.orders" class="pb-1">
-    <span>
-      wts: {{ cheapestSellOrder?.platinum }}
-      <PlatIcon />
-    </span>,
+    <span> wts: {{ cheapestSellOrder?.platinum }} <PlatIcon /> </span>,
     <span>
       wtb: {{ priciestBuyOrder?.platinum }}
       <PlatIcon />
@@ -20,8 +17,14 @@
         <h5>WTS (Sell Orders)</h5>
       </v-expansion-panel-title>
       <v-expansion-panel-text class="pa-0">
-        <TradeInfo v-for="(order, index) in cheapestSellOrders" :key="index" :order="order" :item="item" :index="index"
-          :operation="'buy'"></TradeInfo>
+        <TradeInfo
+          v-for="(order, index) in cheapestSellOrders"
+          :key="index"
+          :order="order"
+          :item="item"
+          :index="index"
+          :operation="'buy'"
+        ></TradeInfo>
       </v-expansion-panel-text>
     </v-expansion-panel>
   </v-expansion-panels>
@@ -32,8 +35,14 @@
         <h5>WTB (Buy Orders)</h5>
       </v-expansion-panel-title>
       <v-expansion-panel-text>
-        <TradeInfo v-for="(order, index) in priciestBuyOrders" :key="index" :order="order" :item="item" :index="index"
-          :operation="'sell'"></TradeInfo>
+        <TradeInfo
+          v-for="(order, index) in priciestBuyOrders"
+          :key="index"
+          :order="order"
+          :item="item"
+          :index="index"
+          :operation="'sell'"
+        ></TradeInfo>
       </v-expansion-panel-text>
     </v-expansion-panel>
   </v-expansion-panels>

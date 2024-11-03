@@ -49,58 +49,56 @@
     </div>
 </template>
 <script setup>
-import { useOrdersStore } from '@/stores/orders';
-import { computed, onBeforeMount, onMounted, ref, watch } from 'vue';
-import OrderItem from '@/components/OrderItem.vue';
-import { useUserStore } from '@/stores/user';
-import { storeToRefs } from 'pinia';
-import CreateOrder from '@/components/CreateOrder.vue';
-
+import { useOrdersStore } from '@/stores/orders'
+import { computed, onBeforeMount, onMounted, ref, watch } from 'vue'
+import OrderItem from '@/components/OrderItem.vue'
+import { useUserStore } from '@/stores/user'
+import { storeToRefs } from 'pinia'
+import CreateOrder from '@/components/CreateOrder.vue'
 
 const ordersStore = useOrdersStore()
 const userStore = useUserStore()
 const props = defineProps({
-    isUserOrders: {
-        type: Boolean,
-        required: true,
-        default: false
-    },
-    id: { required: false, }, urlName: { required: false, }
+  isUserOrders: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  id: { required: false },
+  urlName: { required: false }
 })
 
 const { userOrders, ordersByItem } = storeToRefs(ordersStore)
-const orders = ref(computed(() => {
+const orders = ref(
+  computed(() => {
     if (props.isUserOrders) {
-
-        return userOrders.value
+      return userOrders.value
     } else {
-        return ordersByItem.value
+      return ordersByItem.value
     }
-}))
-
-
+  })
+)
 
 console.log(props)
 
 if (props.isUserOrders) {
-    console.log('fetch user orders')
-    console.log(ordersStore.fetchUserOrders())
-    console.log(ordersStore.userOrders)
+  console.log('fetch user orders')
+  console.log(ordersStore.fetchUserOrders())
+  console.log(ordersStore.userOrders)
 
-    orders.value = ordersStore.userOrders
-    console.log(userOrders)
-    console.log(userOrders.value)
-    orders.value = userOrders.value
+  orders.value = ordersStore.userOrders
+  console.log(userOrders)
+  console.log(userOrders.value)
+  orders.value = userOrders.value
 }
 if (props.id && props.urlName) {
-    console.log('fetch orders by item')
-    ordersStore.fetchOrdersByItem(props.urlName)
-    console.log(ordersByItem)
-    console.log(ordersByItem.value)
-    orders.value = ordersByItem.value
+  console.log('fetch orders by item')
+  ordersStore.fetchOrdersByItem(props.urlName)
+  console.log(ordersByItem)
+  console.log(ordersByItem.value)
+  orders.value = ordersByItem.value
 }
 
 const isCreateOrder = ref(false)
-
 </script>
 <style></style>

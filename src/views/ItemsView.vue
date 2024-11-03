@@ -1,6 +1,14 @@
 <template>
-  <v-autocomplete elevation="1" v-model="selectedItemUrl" placeholder="Type to search..." label="Item"
-    prepend-inner-icon="mdi-magnify" :items="itemOptions" :item-title="'text'" :item-value="'value'"></v-autocomplete>
+  <v-autocomplete
+    elevation="1"
+    v-model="selectedItemUrl"
+    placeholder="Type to search..."
+    label="Item"
+    prepend-inner-icon="mdi-magnify"
+    :items="itemOptions"
+    :item-title="'text'"
+    :item-value="'value'"
+  ></v-autocomplete>
   <RouterView></RouterView>
 </template>
 

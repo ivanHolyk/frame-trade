@@ -1,6 +1,11 @@
 <template>
   <v-container class="ga-20">
-    <WarframeTableRow v-for="(warframe, index) in warframes" :key="index" :warframe="warframe" :index="index">
+    <WarframeTableRow
+      v-for="(warframe, index) in warframes"
+      :key="index"
+      :warframe="warframe"
+      :index="index"
+    >
     </WarframeTableRow>
   </v-container>
 </template>
