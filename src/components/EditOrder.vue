@@ -1,37 +1,80 @@
 <template>
-  <div id="edit-order" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div
+    id="edit-order"
+    class="modal fade"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="exampleModalCenterTitle">Edit order</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
         </div>
         <div class="modal-body">
           {{ order }}
           <div class="form-check mb-2 form-switch">
-            <input class="form-check-input" type="checkbox" value="" id="visible" checked v-model="visible" />
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="visible"
+              checked
+              v-model="visible"
+            />
             <label class="form-check-label" for="visible"> Visible? </label>
           </div>
           <div class="input-group mb-2">
-            <input type="number" id="order-price" class="form-control" placeholder="Price" min="1"
-              v-model="price" /><button class="btn btn-outline-secondary" @click="suggestPrice" :disabled="!order">
-              <span v-if="isPriceAwait" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+            <input
+              type="number"
+              id="order-price"
+              class="form-control"
+              placeholder="Price"
+              min="1"
+              v-model="price"
+            /><button class="btn btn-outline-secondary" @click="suggestPrice" :disabled="!order">
+              <span
+                v-if="isPriceAwait"
+                class="spinner-border spinner-border-sm"
+                aria-hidden="true"
+              ></span>
               Suggest price
             </button>
           </div>
-          <input type="number" id="quantity" class="form-control" placeholder="Quantity" max="999" min="1"
-            v-model="quantity" />
+          <input
+            type="number"
+            id="quantity"
+            class="form-control"
+            placeholder="Quantity"
+            max="999"
+            min="1"
+            v-model="quantity"
+          />
 
           <select class="form-select" v-if="isMod" v-model="modRank">
             <!-- <option value="" selected disabled> Mod rank</option> -->
             <option value="0" :selected="rank === modRank">0</option>
-            <option v-for="rank in order.item.mod_max_rank" :value="rank" :selected="rank === modRank">
+            <option
+              v-for="rank in order.item.mod_max_rank"
+              :value="rank"
+              :selected="rank === modRank"
+            >
               {{ rank }}
             </option>
           </select>
 
           <select class="form-select" v-if="isRelic" v-model="relicRank">
-            <option v-for="rank in order.item.subtypes" :value="rank" :selected="rank === relicRank">
+            <option
+              v-for="rank in order.item.subtypes"
+              :value="rank"
+              :selected="rank === relicRank"
+            >
               {{ rank }}
             </option>
           </select>
@@ -40,7 +83,11 @@
             <!-- <option value="" selected disabled> Arcane rank</option> -->
 
             <option value="0" :selected="rank === arcaneRank">0</option>
-            <option v-for="rank in order.item.mod_max_rank" :value="rank" :selected="rank === arcaneRank">
+            <option
+              v-for="rank in order.item.mod_max_rank"
+              :value="rank"
+              :selected="rank === arcaneRank"
+            >
               {{ rank }}
             </option>
           </select>

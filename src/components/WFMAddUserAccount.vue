@@ -1,10 +1,22 @@
 <template>
   wfm account
   <v-form @submit.prevent>
-    <v-text-field v-model="wfmEmail" name="wfmAccountEmail" id="wfmAccountEmailInput" hint="Email" label="Email"
-      type="email"></v-text-field>
-    <v-text-field v-model="wfmPassword" name="wfmAccountPassword" id="wfmAccountPasswwordInput" hint="Password"
-      label="Password" type="password"></v-text-field>
+    <v-text-field
+      v-model="wfmEmail"
+      name="wfmAccountEmail"
+      id="wfmAccountEmailInput"
+      hint="Email"
+      label="Email"
+      type="email"
+    ></v-text-field>
+    <v-text-field
+      v-model="wfmPassword"
+      name="wfmAccountPassword"
+      id="wfmAccountPasswwordInput"
+      hint="Password"
+      label="Password"
+      type="password"
+    ></v-text-field>
     <v-btn class="mt-2" @click="addWfmAccount" :loading="!isLoaded" block> Add wfm account </v-btn>
   </v-form>
 </template>

@@ -52,8 +52,13 @@
                   <!-- Subtypes -->
                   <p v-if="item.subtypes"><v-icon left>mdi-tag-multiple</v-icon> Subtypes:</p>
                   <v-chip-group v-if="item.subtypes">
-                    <v-chip v-for="subtype in item.subtypes" :key="subtype" color="secondary" outlined>{{ subtype
-                      }}</v-chip>
+                    <v-chip
+                      v-for="subtype in item.subtypes"
+                      :key="subtype"
+                      color="secondary"
+                      outlined
+                      >{{ subtype }}</v-chip
+                    >
                   </v-chip-group>
 
                   <!-- Wiki Link -->

@@ -6,9 +6,21 @@
       </v-card-title>
       <v-card-text>
         <v-form>
-          <v-text-field v-model="loginInfo.email" label="Email" :disabled="!isLoadComplete" outlined dense />
-          <v-text-field v-model="loginInfo.password" label="Password" type="password" :disabled="!isLoadComplete"
-            outlined dense />
+          <v-text-field
+            v-model="loginInfo.email"
+            label="Email"
+            :disabled="!isLoadComplete"
+            outlined
+            dense
+          />
+          <v-text-field
+            v-model="loginInfo.password"
+            label="Password"
+            type="password"
+            :disabled="!isLoadComplete"
+            outlined
+            dense
+          />
 
           <v-alert v-if="errorMessage" type="error" dense>
             {{ errorMessage.message }}

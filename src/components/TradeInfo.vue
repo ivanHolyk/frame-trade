@@ -9,7 +9,12 @@
     <!-- Collapsible content -->
     <v-expand-transition>
       <div v-show="isExpanded(id)" class="pa-4">
-        <TradeMessage v-if="order" :order="order" :item="item" :operation="operation"></TradeMessage>
+        <TradeMessage
+          v-if="order"
+          :order="order"
+          :item="item"
+          :operation="operation"
+        ></TradeMessage>
       </div>
     </v-expand-transition>
   </div>

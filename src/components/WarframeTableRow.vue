@@ -18,7 +18,11 @@
 
     <v-card-item>
       <v-row>
-        <v-col class="v-col-12 v-col-sm-6 v-col-md-4" v-for="(item, index) in warframe.itemsInSet" :key="index">
+        <v-col
+          class="v-col-12 v-col-sm-6 v-col-md-4"
+          v-for="(item, index) in warframe.itemsInSet"
+          :key="index"
+        >
           <v-card>
             <v-card-title>{{ item.item_name }} </v-card-title>
             <v-card-item elevation="2">

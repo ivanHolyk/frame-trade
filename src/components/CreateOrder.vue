@@ -1,10 +1,21 @@
 <template>
-  <div id="create-order" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div
+    id="create-order"
+    class="modal fade"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="exampleModalCenterTitle">Place order</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
         </div>
         <div class="modal-body">
           <input type="search" class="form-control mb-2" placeholder="Search..." v-model="search" />
@@ -12,13 +23,20 @@
           <div class="list-group overflow-auto vh-max-25 mb-2">
             <div v-for="item in searchResult" :key="item">
               <input type="radio" v-model="itemId" :value="item.id" :id="item.id" class="d-none" />
-              <label class="list-group-item list-group-item-action d-inline-flex justify-content-between"
-                :class="itemId && itemId === item.id ? 'active' : ''" :for="item.id">
+              <label
+                class="list-group-item list-group-item-action d-inline-flex justify-content-between"
+                :class="itemId && itemId === item.id ? 'active' : ''"
+                :for="item.id"
+              >
                 <div>
                   {{ item.item_name }}
                 </div>
                 <div class="d-flex flex-wrap flex-row-reverse">
-                  <span v-for="tag in item.tags" :key="tag" class="badge bg-secondary me-1 fit-max-content">
+                  <span
+                    v-for="tag in item.tags"
+                    :key="tag"
+                    class="badge bg-secondary me-1 fit-max-content"
+                  >
                     {{ tag }}
                   </span>
                 </div>
@@ -27,29 +45,71 @@
           </div>
 
           <div class="form-check">
-            <input type="radio" class="form-check-input" name="type" value="sell" id="sell" v-model="type" checked />
+            <input
+              type="radio"
+              class="form-check-input"
+              name="type"
+              value="sell"
+              id="sell"
+              v-model="type"
+              checked
+            />
             <label class="form-check-label" for="sell"> Sell </label>
           </div>
 
           <div class="form-check mb-2">
-            <input type="radio" class="form-check-input" name="type" value="buy" id="buy" v-model="type" />
+            <input
+              type="radio"
+              class="form-check-input"
+              name="type"
+              value="buy"
+              id="buy"
+              v-model="type"
+            />
             <label class="form-check-label" for="buy"> Buy </label>
           </div>
 
           <div class="form-check mb-2 form-switch">
-            <input class="form-check-input" type="checkbox" value="" id="visible" checked v-model="visible" />
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="visible"
+              checked
+              v-model="visible"
+            />
             <label class="form-check-label" for="visible"> Visible? </label>
           </div>
           <div class="input-group mb-2">
-            <input type="number" id="order-price" class="form-control" placeholder="Price" min="1"
-              v-model="price" /><button class="btn btn-outline-secondary" @click="suggestPrice"
-              :disabled="!selectedItem">
-              <span v-if="isPriceAwait" class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+            <input
+              type="number"
+              id="order-price"
+              class="form-control"
+              placeholder="Price"
+              min="1"
+              v-model="price"
+            /><button
+              class="btn btn-outline-secondary"
+              @click="suggestPrice"
+              :disabled="!selectedItem"
+            >
+              <span
+                v-if="isPriceAwait"
+                class="spinner-border spinner-border-sm"
+                aria-hidden="true"
+              ></span>
               Suggest price
             </button>
           </div>
-          <input type="number" id="quantity" class="form-control" placeholder="Quantity" max="999" min="1"
-            v-model="quantity" />
+          <input
+            type="number"
+            id="quantity"
+            class="form-control"
+            placeholder="Quantity"
+            max="999"
+            min="1"
+            v-model="quantity"
+          />
 
           <select class="form-select" v-if="isMod" v-model="modRank">
             <option value="" selected disabled>Mod rank</option>
