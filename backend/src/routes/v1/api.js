@@ -31,5 +31,6 @@ export { router }
           /order    authorized warframe.market
         /market 	  basically proxy to warframe.market non authorized
         /item		    uses data from api.warframe.market/v1/item
+          /:item_name
         /droptable  uses data from warframestats once in a month or so and caches it 
  */
