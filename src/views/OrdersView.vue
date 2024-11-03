@@ -6,11 +6,11 @@
                     <h2>{{ userStore.username }}'s orders</h2>
                 </v-col>
                 <v-col class="d-inline-flex">
-                    <v-btn icon @click="isCreateOrder = !isCreateOrder">
+                    <v-btn class="me-2" icon @click="isCreateOrder = !isCreateOrder">
                         <v-icon>mdi-cart-plus</v-icon>
                     </v-btn>
                     <CreateOrder v-if="isCreateOrder" :isCreateOrder="isCreateOrder" />
-                    <v-btn icon @click="ordersStore.fetchUserOrders">
+                    <v-btn class="me-2" icon @click="ordersStore.fetchUserOrders">
                         <v-icon>mdi-refresh</v-icon>
                     </v-btn>
                 </v-col>
@@ -21,11 +21,11 @@
         <v-row v-if="orders">
             <!-- Sell Orders -->
             <v-col cols="6">
-                <h3>Sell Orders</h3>
-                <div v-if="orders.sell_orders?.length > 0">
+                <h3 class="mb-3">Sell Orders</h3>
+                <template v-if="orders.sell_orders?.length > 0">
                     <OrderItem v-for="order in orders.sell_orders" :key="order.id" :order="order"
-                        :isUserOrder="props.isUserOrders" />
-                </div>
+                        :isUserOrder="props.isUserOrders" class="mb-3" />
+                </template>
                 <div v-else>
                     <p>No sell orders available.</p>
                 </div>
@@ -33,11 +33,11 @@
 
             <!-- Buy Orders -->
             <v-col cols="6">
-                <h3>Buy Orders</h3>
-                <div v-if="orders?.buy_orders?.length > 0">
+                <h3 class="mb-3">Buy Orders</h3>
+                <template v-if="orders?.buy_orders?.length > 0">
                     <OrderItem v-for="order in orders.buy_orders" :key="order.id" :order="order"
-                        :isUserOrder="props.isUserOrders" />
-                </div>
+                        :isUserOrder="props.isUserOrders" class="mb-3" />
+                </template>
                 <div v-else>
                     <p>No buy orders available.</p>
                 </div>
